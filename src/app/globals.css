@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #101218; /* Antique Anthracite */
+  --color-foreground: #f9f9f9; /* Pure White */
+  --color-card: #171a21; /* Charcoal */
+  --color-card-foreground: #f9f9f9;
+  --color-popover: #171a21; /* Charcoal */
+  --color-popover-foreground: #f9f9f9;
+  --color-primary: #3bdcac; /* Mint Green */
+  --color-primary-foreground: #101218;
+  --color-primary-glow: #64e1b2; /* Light Mint */
+  --color-secondary: #1a1c22; /* Dark Charcoal */
+  --color-secondary-foreground: #f9f9f9;
+  --color-muted: #1f2025; /* Slate Gray */
+  --color-muted-foreground: #4ecdc4;
+  --color-accent: #da3af0; /* Electric Purple */
+  --color-accent-foreground: #101218;
+  --color-destructive: #e6393c; /* Tomato Red */
+  --color-destructive-foreground: #f9f9f9;
+  --color-border: #2a2c34; /* Gunmetal */
+  --color-input: #232428; /* Graphite */
+  --color-ring: #3bdcac; /* Mint Green */
+  --color-sidebar-background: #f9f9f9; /* Smoke White */
+  --color-sidebar-foreground: #3c3f47; /* Slate Gray Dark */
+  --color-sidebar-primary: #1c1d28; /* Midnight Blue */
+  --color-sidebar-accent: #f6f6f6; /* White Smoke */
+  --color-sidebar-border: #e1e2e7; /* Light Silver */
+  --color-sidebar-ring: #e2c247; /* Vibrant Gold */
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}

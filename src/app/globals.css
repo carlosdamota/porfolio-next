@@ -27,8 +27,25 @@
   --color-sidebar-accent: #f6f6f6; /* White Smoke */
   --color-sidebar-border: #e1e2e7; /* Light Silver */
   --color-sidebar-ring: #e2c247; /* Vibrant Gold */
+/* Gradients */
+  --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-primary-glow));
+  --gradient-accent: linear-gradient(to bottom right, var(--color-accent), #f0a3ff); /* Added a lighter purple for the gradient */
+
+  /* Animations */
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-morph: morph 8s ease-in-out infinite;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
 }

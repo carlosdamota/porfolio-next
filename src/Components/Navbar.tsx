@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from './Button'
+import Link from 'next/link'
 
 export const Navbar = () => {
   return (
@@ -8,13 +9,13 @@ export const Navbar = () => {
         <h1 className='text-xl font-bold md:2xl'>Carlos Damota</h1>
         <nav className='items-center hidden md:flex'>
             <ul className='flex gap-4 md:gap-8 font-semibold text-md text'>
-                <li className='text-muted-foreground hover:text-primary'><a href="#about">Sobre mí</a></li>
-                <li className='text-muted-foreground hover:text-primary'><a href="#">Proyectos</a></li>
-                <li className='text-muted-foreground hover:text-primary'><a href="#">Habilidades</a></li>
-                <li className='text-muted-foreground hover:text-primary'><a href="#">Contacto</a></li>
+                <li className='text-muted-foreground hover:text-primary'><Link href="#about">Sobre mí</Link></li>
+                <li className='text-muted-foreground hover:text-primary'><Link href="#projects">Proyectos</Link></li>
+                <li className='text-muted-foreground hover:text-primary'><Link href="#skills">Habilidades</Link></li>
+                <li className='text-muted-foreground hover:text-primary'><Link href="#contact">Contacto</Link></li>
             </ul>
         </nav>
-        <Button >Contrátame</Button>
+        <Button href='#contact' >Contrátame</Button>
         </div>
     </header>
   )

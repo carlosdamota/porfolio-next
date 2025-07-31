@@ -2,13 +2,19 @@ import { getProjects } from '@/Services/projectsServices';
 import React from 'react'
 import { Button } from './Button';
 import { FiExternalLink, FiGithub } from 'react-icons/fi';
+import Link from 'next/link';
 
 
 export const Projects = async () => {
-    const projects  = await getProjects();
-    console.log(projects);
+    const result  = await getProjects();
+
+
+  const projects = result.projects || [];
+  console.log(projects);
+
+    
   return (
-    <section className='flex items-center justify-center px-4 py-16 bg-background text-foreground relative overflow-hidden'>
+    <section id='projects' className='flex items-center justify-center px-4 py-16 bg-background text-foreground relative overflow-hidden'>
             <div className='max-w-5xl mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8 '>
                  <div className='text-center space-y-4 max-w-2xl'>
             <h2 className='text-5xl font-bold'>Mis Proyectos</h2>
@@ -16,10 +22,11 @@ export const Projects = async () => {
                     </div>
 
                     <div className='flex flex-wrap justify-center gap-8'> 
-                        {projects?.projects.map((project: any) => (
-                            <div key={project.id} className='flex flex-col justify-center items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 max-w-sm '>
-                                <img src={project.gallery[0]} alt="imagen proyecto" />
-                                <div className='flex flex-col justify-center gap-4 p-4'>
+                        {projects.map((project: any) => (
+                            <Link href={`/projects/${project._id}`} key={project.id} >
+                            <div className='flex flex-col justify-between items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 max-w-sm overflow-hidden '>
+                                <img className='w-full h-48 object-cover' src={project.gallery[0]} alt="imagen proyecto" />
+                                <div className='flex flex-col justify-center gap-4 px-6 pt-2 pb-6'>
                                 <h3 className='text-lg font-bold'>{project.title}</h3>
                                 <p className='text-muted-foreground line-clamp-4 whitespace-pre-line break-words text-sm '>{project.description}</p>
                                 <div className='flex flex-wrap gap-2'>
@@ -27,12 +34,13 @@ export const Projects = async () => {
                                         <span key={index} className='text-muted-foreground text-sm bg-muted py-0.5 px-2 rounded hover:bg-primary hover:text-primary-foreground'>{skill}</span>
                                     ))}  
                                 </div>
-                                </div>
-                                <div className='flex gap-4 pb-6'>
-                                    <Button style='secondary'><FiGithub />Codigo</Button>
-                                    <Button style='primary-card'><FiExternalLink />Demo</Button>
+                                <div className='flex gap-4'>
+                                    <Button href={`${project.githubProjectLink}` } target='_blank' style='secondary-card'><FiGithub />Codigo</Button>
+                                    <Button href={`${project.liveLink}`} target='_blank' style='primary-card'><FiExternalLink />Demo</Button>
                                     </div>
                                 </div>
+                                </div>
+                                    </Link>
                         ))}
                     </div>  
             </div>

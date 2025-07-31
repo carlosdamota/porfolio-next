@@ -25,3 +25,20 @@ export const getProjects = async () => {
     return { error: true, message: error.message };
   }
 };
+
+export const getProjectById = async (_id: string) => {
+  try {
+    const resp = await fetch(`${API_URL}/projects/${_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch project:", error);
+    return { error: true, message: error.message };
+  }
+};

@@ -23,7 +23,7 @@ export const Projects = async () => {
 
                     <div className='flex flex-wrap justify-center gap-8'> 
                         {projects.map((project: any) => (
-                            <Link href={`/projects/${project._id}`} key={project.id} >
+                            <Link href={`/${project._id}`} key={project.id} passHref>
                             <div className='flex flex-col justify-between items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 max-w-sm overflow-hidden '>
                                 <img className='w-full h-48 object-cover' src={project.gallery[0]} alt="imagen proyecto" />
                                 <div className='flex flex-col justify-center gap-4 px-6 pt-2 pb-6'>

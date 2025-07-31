@@ -5,7 +5,7 @@ import React from 'react'
 interface ProjectDetailsProps {
     params: { projectID: string };
 }
-export const page = async ({params}: ProjectDetailsProps) => {
+const page = async ({params}: ProjectDetailsProps) => {
     const {projectID} = params
 
    
@@ -39,3 +39,4 @@ export const page = async ({params}: ProjectDetailsProps) => {
     <div>page</div>
   )
 }
+export default page

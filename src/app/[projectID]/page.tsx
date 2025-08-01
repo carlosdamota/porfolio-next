@@ -6,10 +6,10 @@ import Link from "next/link";
 import React from "react";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 
-interface ProjectDetailsProps {
-  params: { projectID: string };
+type Params = {
+ projectID: string
 }
-const Page = async ({ params }: ProjectDetailsProps) => {
+const Page = async ({ params }: { params: Params }) => {
   const { projectID } = params;
 
   const { project, error, message } = await getProjectById(projectID); // Ajusta tu función de servicio

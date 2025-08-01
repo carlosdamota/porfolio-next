@@ -29,7 +29,7 @@ export const Contact = () => {
                     <span className="flex justify-center items-center size-14 sm:size-16 bg-secondary/40 rounded-xl"><FiLinkedin   className="text-primary size-6" /></span>
                     <div>
                     <h4 className='text-lg font-bold'>
-Linkdin</h4>
+Linkedin</h4>
                     <p className='text-muted-foreground text-sm'>Conectemos profesionalmente</p>
                     </div>
                 </li>

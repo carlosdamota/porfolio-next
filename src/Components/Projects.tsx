@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { FiExternalLink, FiGithub } from 'react-icons/fi';
 import Link from 'next/link';
 import { ProjectSkills } from './ProjectSkills';
+import { CardsButtons } from './CardsButtons';
 
 
 export const Projects = async () => {
@@ -37,7 +38,7 @@ export const Projects = async () => {
                                 <p className='text-muted-foreground line-clamp-4 whitespace-pre-line break-words text-sm flex-1'>{project.description}</p>
                                 </Link>
                                 <ProjectSkills projectSkills={project.projectSkills} />
-                                
+                                <CardsButtons githubProjectLink={project.githubProjectLink} liveLink={project.liveLink} />
                                 </div>
                                 </div>
                                     

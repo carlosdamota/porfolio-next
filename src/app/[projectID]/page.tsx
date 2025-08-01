@@ -9,7 +9,7 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 interface ProjectDetailsProps {
   params: { projectID: string };
 }
-const page = async ({ params }: ProjectDetailsProps) => {
+const Page = async ({ params }: ProjectDetailsProps) => {
   const { projectID } = params;
 
   const { project, error, message } = await getProjectById(projectID); // Ajusta tu función de servicio
@@ -51,6 +51,8 @@ const page = async ({ params }: ProjectDetailsProps) => {
           className='w-[300%] h-150 object-cover mask-b-from-1 '
           src={project.gallery[0]}
           alt='imagen proyecto'
+          width={2560}
+          height={1440}
         />
       </div>
       <div className='relative bottom-100 rounded-2xl bg-card  max-w-6xl mx-auto flex flex-col justify-start items-center  gap-8 pb-8 pt-[-10] overflow-hidden'>
@@ -65,6 +67,8 @@ const page = async ({ params }: ProjectDetailsProps) => {
                 alt='imagenes proyecto'
                 src={image}
                 className='w-full object-cover'
+                width={2560}
+                height={1440}
               />
               <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
                 <a
@@ -118,7 +122,7 @@ const page = async ({ params }: ProjectDetailsProps) => {
   );
 };
 
-export default page;
+export default Page;
 
 {
   /* <div className='max-w-3xl mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8 '>

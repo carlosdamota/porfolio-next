@@ -9,8 +9,8 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 interface Params {
   projectID: string;
 }
-const Page = async ({ params }: { params: Params }) => {
-  const { projectID } = params;
+const Page = async ({ params }: { params: Promise<Params> }) => {
+  const { projectID } = await params;
 
   const { project, error, message } = await getProjectById(projectID); // Ajusta tu función de servicio
   console.log(project);

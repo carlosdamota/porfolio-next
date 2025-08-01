@@ -4,6 +4,8 @@ import React from "react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 
+import { FormContact } from "./FormContact";
+
 export const Contact = () => {
   return (
     <section
@@ -18,37 +20,7 @@ export const Contact = () => {
           </p>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
-          <aside className='flex flex-col w-full justify-center items-center gap-4 outline-1 outline-primary/20 rounded-xl bg-card p-8'>
-            <form
-              action=''
-              className='flex flex-col justify-center  gap-4 w-full'
-            >
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='name'>Nombre</label>
-                <input
-                  type='text'
-                  name='name'
-                  placeholder='Nombre'
-                  className='py-2 px-4 text-sm outline-1 outline-primary/20 rounded-xl bg-card text-foreground placeholder:text-muted-foreground'
-                />
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='email'>Email</label>
-                <input
-                  type='email'
-                  placeholder='Email'
-                  className='py-2 px-4 outline-1 outline-primary/20 rounded-xl bg-card text-foreground placeholder:text-muted-foreground'
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor='message'>Mensaje</label>
-                <textarea
-                  placeholder='Mensaje'
-                  className='py-2 px-4 outline-1 outline-primary/20 rounded-xl bg-card text-foreground placeholder:text-muted-foreground'
-                ></textarea>
-              </div>
-            </form>
-          </aside>
+          <FormContact />
           <aside className='flex flex-col w-full justify-center items-center gap-4'>
             <h3 className='text-xl font-bold '>También puedes contactarme a traves de:</h3>
             <ul className='flex flex-col gap-4 w-full'>
@@ -81,6 +53,10 @@ Linkdin</h4>
                 </li>
                 </Link>
             </ul>
+            <article className="flex flex-col gap-4 w-full mt-8 outline-1 outline-primary/20 rounded-xl bg-card p-8">
+                <h3 className='text-xl font-medium '>¿Buscas talento junior?</h3>
+                <p className="text-muted-foreground text-sm ">Estoy disponible para oportunidades full-time o colaboraciones. Mi experiencia en retail + formación técnica me permite aportar una perspectiva única a tu equipo.</p>
+            </article>
             </aside>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 export const About = () => {
@@ -5,7 +6,7 @@ export const About = () => {
     <section id='about' className=' flex items-center justify-center px-4 py-16 bg-card relative overflow-hidden'>
         <div className='max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 justify-center items-center px-4 py-2 gap-8 '>
             
-                 <img className='w-100 h-75 object-cover object-top rounded-2xl' src="Foto_perfil.jpg" alt="foto_perfil" />   
+                 <Image className='w-100 h-75 object-cover object-top rounded-2xl' src="Foto_perfil.jpg" alt="foto_perfil" />   
             
             <article>
                 <h2 className="text-4xl md:text-5xl font-bold mb-8 text-foreground">

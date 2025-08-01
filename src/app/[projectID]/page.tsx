@@ -1,6 +1,7 @@
 import { Button } from "@/Components/Button";
 import { ProjectSkills } from "@/Components/ProjectSkills";
 import { getProjectById } from "@/Services/projectsServices";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
@@ -46,10 +47,10 @@ const page = async ({ params }: ProjectDetailsProps) => {
   return (
     <section className='flex flex-col items-center justify-between  bg-background text-foreground relative overflow-hidden'>
       <div className='blur-sm w-full overflow-hidden bg-gradient-to-t from-card via-primary-glow/10 via-10% to-card'>
-        <img
+        <Image
           className='w-[300%] h-150 object-cover mask-b-from-1 '
           src={project.gallery[0]}
-          alt=''
+          alt='imagen proyecto'
         />
       </div>
       <div className='relative bottom-100 rounded-2xl bg-card  max-w-6xl mx-auto flex flex-col justify-start items-center  gap-8 pb-8 pt-[-10] overflow-hidden'>
@@ -60,7 +61,8 @@ const page = async ({ params }: ProjectDetailsProps) => {
               className='carousel-item relative w-full h-100 sm:h-200'
               key={index}
             >
-              <img
+              <Image
+                alt='imagenes proyecto'
                 src={image}
                 className='w-full object-cover'
               />

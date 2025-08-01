@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React from 'react'
 
 export const Skills = () => {
@@ -47,7 +46,7 @@ export const Skills = () => {
 
           {skills.map((skill) => (
             <div key={skill.id} className="flex outline-1 outline-primary/10 hover:outline-primary items-center space-x-2  px-4 py-2 rounded-lg ">
-              <Image className='size-4 sm:size-8' src={`https://skillicons.dev/icons?i=${skill.id}`} alt="logo skill tech" />
+              <img className='size-4 sm:size-8' src={`https://skillicons.dev/icons?i=${skill.id}`} alt="logo skill tech "/>
               <span className="text-primary text-sm sm:text-md">{skill.name}</span>
             </div>
           ))}

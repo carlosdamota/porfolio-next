@@ -5,6 +5,16 @@ import { ProjectSkills } from './ProjectSkills';
 import { CardsButtons } from './CardsButtons';
 import Image from 'next/image';
 
+interface Project {
+  _id: string;
+  title: string;
+  category: string;
+  description: string;
+  gallery: string[]; // asumimos que son URLs
+  projectSkills: string[]; // o un tipo más complejo si lo necesitas
+  githubProjectLink: string;
+  liveLink: string;
+}
 
 export const Projects = async () => {
     const result  = await getProjects();
@@ -23,10 +33,11 @@ export const Projects = async () => {
                     </div>
 
                     <div className='flex flex-wrap justify-center gap-8'> 
-                        {projects.map((project: any) => (
+                        {projects.map((project: Project ) => (
                             
                             <div key={project._id} className='flex flex-col justify-between items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 max-w-sm  overflow-hidden '>
-                                <Image className='w-full h-48 object-cover' src={project.gallery[0]} alt="imagen proyecto" />
+                                <Image className='w-full h-48 object-cover' src={project.gallery[0]} alt="imagen proyecto" width={500}
+      height={500} />
                                 <div className='flex flex-col justify-between   gap-4 px-6 pt-2 pb-6 flex-1'>
                                 <Link href={`/${project._id}`}  passHref>
                                     <div className='flex flex-wrap justify-between items-center'>

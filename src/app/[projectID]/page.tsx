@@ -6,8 +6,8 @@ import Link from "next/link";
 import React from "react";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 
-type Params = {
- projectID: string
+interface Params {
+  projectID: string;
 }
 const Page = async ({ params }: { params: Params }) => {
   const { projectID } = params;

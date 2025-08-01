@@ -22,9 +22,10 @@ export const getProjects = async () => {
     const data = await resp.json();
     return { projects: Array.isArray(data) ? data : [] };
   } catch (error) {
-    console.error("Failed to fetch projects by developer:", error);
-    return { error: true, message: error.message };
-  }
+  console.error("Failed to fetch projects by developer:", error);
+  const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+  return { error: true, message: errorMessage };
+}
 };
 
 export const getProjectById = async (id: string) => {
@@ -44,6 +45,7 @@ export const getProjectById = async (id: string) => {
     return { project: data };
   } catch (error) {
     console.error("Failed to fetch project:", error);
-    return { error: true, message: error.message };
+     const errorMessage = error instanceof Error ? error.message : "Error desconocido";
+  return { error: true, message: errorMessage };
   }
 };

@@ -21,7 +21,6 @@ export const Projects = async () => {
 
 
   const projects = result.projects || [];
-  console.log(projects);
 
     
   return (

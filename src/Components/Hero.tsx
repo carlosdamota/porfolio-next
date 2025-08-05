@@ -75,7 +75,7 @@ export const Hero = () => {
         </p>
         <div className='flex justify-center gap-8 mt-8'>
           <Button><AiOutlineMail className='size-5' /> Contrátame</Button>
-          <Button style='secondary'>
+          <Button style='secondary' href="/Curriculum Carlos Damota Full-Stack.pdf" target="_blank">
             <AiOutlineDownload className='size-5' />
             Descargar CV
           </Button>

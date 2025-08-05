@@ -11,6 +11,7 @@ interface ButtonProps {
     target?: string,
 }
 
+
 export const Button = ({children, style, href, target}: ButtonProps) => {
     const styles: Record<string, string> = {
         'primary': 'bg-primary/50 text-primary-foreground hover:bg-primary-glow hover:text-primary-foreground text-md hover:scale-105 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/70  animate-pulse',

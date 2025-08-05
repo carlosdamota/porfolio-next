@@ -13,7 +13,7 @@ const Page = async ({ params }: { params: Promise<Params> }) => {
   const { projectID } = await params;
 
   const { project, error, message } = await getProjectById(projectID); // Ajusta tu función de servicio
-  console.log(project);
+ 
   if (error) {
     return (
       <section className='py-16 text-center'>

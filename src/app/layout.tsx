@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: "Carlos Damota | Desarrollador Full‑Stack Junior",
   description:
     "Portfolio de Carlos Damota, desarrollador full‑stack especializado en el stack MERN. Apasionado por la tecnología, la mejora continua y la creación de soluciones eficientes con React, Node.js y MongoDB.",
+    verification: {
+    google: "5KpsD4cTnwJmjEOALTyxIoK-uz7YNLzs5MWU32FjA2g",
+  },
   keywords: [
     "desarrollador web",
     "full-stack",

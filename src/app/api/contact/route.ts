@@ -17,7 +17,6 @@ export async function POST(req: Request) {
       from: "Portfolio <onboarding@resend.dev>",
       to: "cdamota.cd@gmail.com",
       subject: `Nuevo mensaje de ${name}`,
-      reply_to: email, // ← importante usar guion bajo
       text: message,
     });
 

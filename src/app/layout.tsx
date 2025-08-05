@@ -71,9 +71,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="es" className="scroll-smooth">
       <body
-        className={ `bg-background text-foreground ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen w-full`}
+        className={ `bg-background text-foreground ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col justify-between min-h-screen ` }
       >
         <Navbar />
         {children}

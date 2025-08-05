@@ -38,7 +38,7 @@ export const Projects = async () => {
                                 <Image className='w-full h-48 object-cover' src={project.gallery[0]} alt="imagen proyecto" width={500}
       height={500} />
                                 <div className='flex flex-col justify-between   gap-4 px-6 pt-2 pb-6 flex-1'>
-                                <Link href={`/${project._id}`}  passHref>
+                                <Link href={`/projects/${project._id}`}  passHref>
                                     <div className='flex flex-wrap justify-between items-center'>
                                 <h3 className='text-lg font-bold'>{project.title}</h3>
                                 <p className='text-muted-foreground text-xs'>{project.category}</p>

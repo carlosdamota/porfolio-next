@@ -19,7 +19,7 @@ export const Contact = () => {
             Si tienes alguna pregunta o quieres trabajar juntos, no dudes en contactarme.
           </p>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 '>
+        <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 '>
           <FormContact />
           <aside className='flex flex-col w-full justify-center items-center gap-4'>
             <h3 className='text-xl font-bold '>También puedes contactarme a traves de:</h3>

@@ -25,7 +25,7 @@ export const Projects = async () => {
     
   return (
     <section id='projects' className='flex items-center justify-center px-4 py-16 bg-background text-foreground relative overflow-hidden'>
-            <div className=' mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8 '>
+            <div className=' max-w-7xl mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8 '>
                  <div className='text-center space-y-4 max-w-2xl'>
             <h2 className='text-5xl font-bold'>Mis Proyectos</h2>
                 <p className='text-muted-foreground text-2xl'>Una selección de proyectos que demuestran mis habilidades en desarrollo full-stack</p>

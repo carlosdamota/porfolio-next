@@ -9,7 +9,7 @@ interface ButtonProps {
     style?: string,
     href?: string,
     target?: string,
-    download?: string
+    download?: boolean | string;
 }
 
 

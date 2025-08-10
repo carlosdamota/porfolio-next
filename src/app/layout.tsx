@@ -38,6 +38,9 @@ export const metadata: Metadata = {
     "Carlos Damota",
   ],
   robots: "index, follow",
+  alternates: {
+    canonical: "https://carlosdamota.com",
+  },
   openGraph: {
     title: "Carlos Damota | Full‑Stack Developer",
     description:

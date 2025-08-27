@@ -3,29 +3,29 @@ import React from 'react'
 export const Skills = () => {
 
   const skills = [
-  { name: "HTML", id: "html" },
-  { name: "CSS", id: "css" },
+  { name: "HTML", id: "html-5" },
+  { name: "CSS", id: "css-3" },
   { name: "Sass", id: "sass" },
-  { name: "JavaScript", id: "js" },
-  { name: "TypeScript", id: "ts" },
+  { name: "JavaScript", id: "javascript" },
+  { name: "TypeScript", id: "typescript-icon" },
   { name: "React", id: "react" },
-  { name: "Next.js", id: "nextjs" },
-  { name: "Node.js", id: "nodejs" },
+  { name: "Next.js", id: "nextjs-icon" },
+  { name: "Node.js", id: "nodejs-icon" },
   { name: "Express", id: "express" },
-  { name: "MongoDB", id: "mongodb" },
-  { name: "Socket.IO", id: "socketio" },
-  { name: "Tailwind CSS", id: "tailwind" },
-  { name: "DaisyUI", id: "daisyui" }, // este no está en la lista oficial, pero puedes usar un fallback
-  { name: "Docker", id: "docker" },
-  { name: "Git", id: "git" },
-  { name: "GitHub", id: "github" },
-  { name: "VS Code", id: "vscode" },
-  { name: "Vercel", id: "vercel" },
-  { name: "Netlify", id: "netlify" },
-  { name: "Render", id: "render" }, // está en la lista
-  { name: "Postman", id: "postman" },
-  { name: "Python", id: "py" },
-  { name: "Warp", id: "warp" } // no aparece en el listado oficial
+  { name: "MongoDB", id: "mongodb-icon" },
+  { name: "Socket.IO", id: "socket.io" },
+  { name: "Tailwind", id: "tailwindcss-icon" },
+  { name: "DaisyUI", id: "daisyUI-icon" }, // este no está en la lista oficial, pero puedes usar un fallback
+  { name: "Docker", id: "docker-icon" },
+  { name: "Git", id: "git-icon" },
+  { name: "GitHub", id: "github-icon" },
+  { name: "VS Code", id: "visual-studio-code" },
+  { name: "Vercel", id: "vercel-icon" },
+  { name: "Netlify", id: "netlify-icon" },
+  { name: "GitLab", id: "gitlab-icon" }, // está en la lista
+  { name: "Postman", id: "postman-icon" },
+  { name: "Python", id: "python" },
+  { name: "Copilot", id: "github-copilot" } // no aparece en el listado oficial
 ];
 
 
@@ -46,7 +46,10 @@ export const Skills = () => {
 
           {skills.map((skill) => (
             <div key={skill.id} className="flex outline-1 outline-primary/10 hover:outline-primary items-center space-x-2  px-4 py-2 rounded-lg ">
-              <img className='size-4 sm:size-8' src={`https://skillicons.dev/icons?i=${skill.id}`} alt="logo skill tech "/>
+              <div className='flex justify-center items-center glass rounded-md p-1  min-w-6'>
+
+              <img className='size-4 sm:size-6' src={`https://cdn.svglogos.dev/logos/${skill.id}.svg`} alt="logo skill tech "/>
+              </div>
               <span className="text-primary text-sm sm:text-md">{skill.name}</span>
             </div>
           ))}

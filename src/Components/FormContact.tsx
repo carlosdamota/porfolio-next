@@ -35,7 +35,7 @@ export const FormContact = () => {
   }
 
  const handlerChange =  (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value)
+   
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 

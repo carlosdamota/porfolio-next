@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.local ? "" : process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: "Portfolio <onboarding@resend.dev>",
+      from: email,
       to: "cdamota.cd@gmail.com",
       subject: `Nuevo mensaje de ${name}`,
       text: message,

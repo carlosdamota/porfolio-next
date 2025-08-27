@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.local ? "" : process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -14,10 +14,27 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: email,
+      from:'"Portfolio Next" <onboarding@resend.dev>',
       to: "cdamota.cd@gmail.com",
       subject: `Nuevo mensaje de ${name}`,
-      text: message,
+      html: `
+        <h3>Nuevo mensaje desde tu portfolio</h3>
+        <p><strong>Nombre:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mensaje:</strong></p>
+        <p>${message}</p>
+      `,
+    });
+
+    await resend.emails.send({
+      from: '"Portfolio Next" <onboarding@resend.dev>',
+      to: email,
+      subject: 'Gracias por contactarme',
+      html: `
+        <h3>¡Gracias por tu mensaje, ${name.toUpperCase()}!</h3>
+        <p>He recibido tu mensaje y te responderé pronto.</p>
+        <p>Saludos,<br>Carlos Damota</p>
+      `,
     });
 
     return new Response(JSON.stringify({ success: true }), {

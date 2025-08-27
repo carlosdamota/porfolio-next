@@ -24,7 +24,7 @@ export const Contact = () => {
           <aside className='flex flex-col w-full justify-center items-center gap-4'>
             <h3 className='text-xl font-bold '>También puedes contactarme a traves de:</h3>
             <ul className='flex flex-col gap-4 w-full'>
-                <Link href="https://github.com/CarlosDamota" target="_blank">
+                <Link href="https://www.linkedin.com/in/carlos-damota/" target="_blank">
                 <li className='flex gap-4 items-center glass rounded-xl py-4 px-4 sm:px-8 hover:shadow-lg hover:shadow-primary/40'>
                     <span className="flex justify-center items-center size-14 sm:size-16 bg-secondary/40 rounded-xl"><FiLinkedin   className="text-primary size-6" /></span>
                     <div>

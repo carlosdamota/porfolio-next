@@ -15,17 +15,17 @@ export const Skills = () => {
   { name: "MongoDB", id: "mongodb-icon" },
   { name: "Socket.IO", id: "socket.io" },
   { name: "Tailwind", id: "tailwindcss-icon" },
-  { name: "DaisyUI", id: "daisyUI-icon" }, // este no está en la lista oficial, pero puedes usar un fallback
+  { name: "DaisyUI", id: "daisyUI-icon" },
   { name: "Docker", id: "docker-icon" },
   { name: "Git", id: "git-icon" },
   { name: "GitHub", id: "github-icon" },
   { name: "VS Code", id: "visual-studio-code" },
   { name: "Vercel", id: "vercel-icon" },
   { name: "Netlify", id: "netlify-icon" },
-  { name: "GitLab", id: "gitlab-icon" }, // está en la lista
+  { name: "GitLab", id: "gitlab-icon" }, 
   { name: "Postman", id: "postman-icon" },
   { name: "Python", id: "python" },
-  { name: "Copilot", id: "github-copilot" } // no aparece en el listado oficial
+  { name: "Copilot", id: "github-copilot" } 
 ];
 
 

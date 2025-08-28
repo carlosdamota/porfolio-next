@@ -30,7 +30,7 @@ export const Skills = () => {
 
 
   return (
-    <section id='about' className=' flex items-center justify-center px-4 py-16 bg-card relative overflow-hidden'>
+    <section id='skills' className=' flex items-center justify-center px-4 py-16 bg-card relative overflow-hidden'>
         <div className='max-w-5xl mx-auto flex flex-col  justify-center items-center px-4 py-2 gap-8 '>
 
         <article className='flex flex-col gap-4'>

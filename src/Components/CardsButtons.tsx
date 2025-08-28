@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Button } from "./Button";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
@@ -10,7 +11,7 @@ export const CardsButtons = ({ githubProjectLink, liveLink }: Project) => {
   const hasGithubProjectLink = githubProjectLink !== undefined;
   const hasLiveLink = liveLink !== undefined;
   return (
-    <div className='flex gap-4'>
+    <div className='flex  gap-4 '>
       {hasGithubProjectLink && (
         <Button
           href={`${githubProjectLink}`}

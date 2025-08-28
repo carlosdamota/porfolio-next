@@ -45,17 +45,9 @@ const Page = async ({ params }: { params: Promise<Params> }) => {
   }
 
   return (
-    <section className='flex flex-col items-center justify-between  bg-background text-foreground relative overflow-hidden'>
-      <div className='blur-sm w-full overflow-hidden bg-gradient-to-t from-card via-primary-glow/10 via-10% to-card'>
-        <Image
-          className='w-[300%] h-150 object-cover mask-b-from-1 '
-          src={project.gallery[0]}
-          alt='imagen proyecto'
-          width={2560}
-          height={1440}
-        />
-      </div>
-      <div className='relative bottom-100 rounded-2xl bg-card  max-w-6xl mx-auto flex flex-col justify-start items-center  gap-8 pb-8 pt-[-10] overflow-hidden'>
+    <section className='flex flex-col items-center justify-between py-16 bg-background text-foreground relative overflow-hidden'>
+     
+      <div className='m-auto rounded-2xl bg-card  max-w-6xl mx-auto flex flex-col justify-start items-center  gap-8 pb-8 pt-[-10] overflow-hidden'>
         <div className='carousel w-full h-100 sm:h-200 '>
           {project.gallery.map((image: string, index: number) => (
             <div
@@ -93,16 +85,20 @@ const Page = async ({ params }: { params: Promise<Params> }) => {
               <h2 className='text-3xl font-bold'>{project.title}</h2>
               <p className='text-muted-foreground text-sm'>{project.category}</p>
             </div>
+            <div className="sm:flex gap-4 sm:gap-8 ">
+
             <p className='text-muted-foreground whitespace-pre-line break-words text-md'>
               {project.description}
             </p>
+            <div className="sm:border-l sm:border-muted-foreground/10 sm:max-w-xs sm:pl-8 flex flex-col gap-8">
+
             <ProjectSkills projectSkills={project.projectSkills} />
-            <div className='flex gap-4'>
+            <div className='flex sm:flex-col justify-center gap-4'>
               <Button
                 href={`${project.githubProjectLink}`}
                 target='_blank'
                 style='secondary-card'
-              >
+                >
                 <FiGithub />
                 Codigo
               </Button>
@@ -110,10 +106,12 @@ const Page = async ({ params }: { params: Promise<Params> }) => {
                 href={`${project.liveLink}`}
                 target='_blank'
                 style='primary-card'
-              >
+                >
                 <FiExternalLink />
                 Demo
               </Button>
+                  </div>
+                  </div>
             </div>
           </div>
         </div>

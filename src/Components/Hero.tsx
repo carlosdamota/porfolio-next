@@ -74,7 +74,7 @@ export const Hero = () => {
           <span className='text-primary font-semibold'>robustas y eficientes</span>
         </p>
         <div className='flex justify-center gap-8 mt-8'>
-          <Button><AiOutlineMail className='size-5' /> Contrátame</Button>
+          <Button href='/#contact' ><AiOutlineMail className='size-5' /> Contrátame</Button>
           <Button download style='secondary' href="/Curriculum Carlos Damota Full-Stack.pdf" target="_blank">
             <AiOutlineDownload className='size-5' />
             Descargar CV

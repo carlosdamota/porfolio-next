@@ -76,7 +76,7 @@ export const Hero = () => {
           <Button
             download
             style='secondary'
-            href='/Curriculum Carlos Damota Front-end.pdf'
+            href='/Curriculum Carlos Damota.pdf'
             target='_blank'
           >
             <AiOutlineDownload className='size-5' />

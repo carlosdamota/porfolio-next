@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.91.1",
     "@vercel/analytics": "^1.5.0",
+    "babel-plugin-react-compiler": "^1.0.0",
     "daisyui": "^5.0.50",
-    "next": "15.4.8",
+    "next": "16.1.4",
     "prettier": "^3.6.2",
-    "react": "19.1.2",
-    "react-dom": "19.1.2",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-icons": "^5.5.0",
     "resend": "^4.8.0"
   },

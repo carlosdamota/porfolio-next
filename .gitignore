@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# agent & technical docs
+.antigravity/
+AGENT_MCP_RULES.md
+TECH_STACK_RULES.md
+mcp-config.json
+DB_SCHEMA.md
+SUPABASE_SETUP.sql
+MIGRATION_PLAN.md

@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineDownload, AiOutlineMail } from "react-icons/ai";
-import { Button } from "./Button";
+import { Button } from "../atoms/Button";
 
 export const Hero = () => {
   return (
@@ -84,6 +84,18 @@ export const Hero = () => {
           </Button>
         </div>
       </div>
+
+      {/* Scroll Down Indicator */}
+      <a 
+        href="#about" 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer z-20"
+        aria-label="Scroll down"
+      >
+        <span className="text-xs uppercase tracking-widest">Scroll</span>
+        <div className="w-6 h-10 border-2 border-current rounded-full flex justify-center">
+          <div className="w-1.5 h-3 bg-current rounded-full mt-2 animate-bounce" />
+        </div>
+      </a>
     </section>
   );
 };

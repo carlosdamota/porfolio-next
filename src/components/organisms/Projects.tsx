@@ -1,25 +1,25 @@
-import { getProjects } from "@/Services/projectsServices";
+import { getProjects } from "@/utils/supabase/queries";
 import React from "react";
 import Link from "next/link";
-import { ProjectSkills } from "./ProjectSkills";
-import { CardsButtons } from "./CardsButtons";
+import { ProjectSkills } from "../molecules/ProjectSkills";
+import { CardsButtons } from "../molecules/CardsButtons";
 import Image from "next/image";
 
 interface Project {
   _id: string;
+  slug: string;
   title: string;
   category: string;
+  year?: number;
   description: string;
-  gallery: string[]; // asumimos que son URLs
-  projectSkills: string[]; // o un tipo más complejo si lo necesitas
+  gallery: string[];
+  projectSkills: string[];
   githubProjectLink?: string;
   liveLink?: string;
 }
 
 export const Projects = async () => {
-  const result = await getProjects();
-
-  const projects = result.projects || [];
+  const { projects } = await getProjects();
 
   return (
     <section
@@ -50,18 +50,38 @@ export const Projects = async () => {
               />
               <div className='flex flex-col justify-between  gap-4 px-6 pt-2 pb-6 flex-1'>
                 <Link
-                  href={`/projects/${project._id}`}
+                  href={`/projects/${project.slug}`}
                   passHref
                 >
                   <div className='flex flex-wrap justify-between items-center'>
                     <h3 className='text-lg font-bold'>{project.title}</h3>
-                    <p className='text-muted-foreground text-xs'>{project.category}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{project.category}</span>
+                        {project.year && (
+                             <>
+                                <span>•</span>
+                                <span>{project.year}</span>
+                             </>
+                        )}
+                    </div>
                   </div>
-                  <p className='text-muted-foreground line-clamp-4 whitespace-pre-line break-words text-sm flex-1'>
+                  <p className='text-muted-foreground line-clamp-3 whitespace-pre-line break-words text-sm flex-1'>
                     {project.description}
                   </p>
                 </Link>
-                <ProjectSkills projectSkills={project.projectSkills} />
+                {/* Tech Tags (Top 3) */}
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {project.projectSkills.slice(0, 3).map((tech: string) => (
+                    <span key={tech} className="px-2 py-0.5 text-xs rounded-full bg-secondary/60 text-secondary-foreground border border-border/30">
+                      {tech}
+                    </span>
+                  ))}
+                  {project.projectSkills.length > 3 && (
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground">
+                      +{project.projectSkills.length - 3}
+                    </span>
+                  )}
+                </div>
                 <CardsButtons
                   githubProjectLink={project.githubProjectLink}
                   liveLink={project.liveLink}

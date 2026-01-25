@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from './Button'
+import { Button } from '../atoms/Button'
 import Link from 'next/link'
 
 export const Navbar = () => {

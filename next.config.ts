@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  reactCompiler: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
   images: {
     remotePatterns: [
       
@@ -16,6 +22,12 @@ const nextConfig: NextConfig = {
         hostname: 'skillicons.dev',
         port: "",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "mipdleioisirckqzkyzg.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/**",
       }
     ],
   },

@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import { Button } from "./Button";
+import { Button } from "../atoms/Button";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 
 interface Project {

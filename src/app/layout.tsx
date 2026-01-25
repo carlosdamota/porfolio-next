@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/Components/Navbar";
-import { Footer } from "@/Components/Footer";
+import { Navbar } from "@/components/organisms/Navbar";
+import { Footer } from "@/components/organisms/Footer";
 import { Analytics } from "@vercel/analytics/next";
 
 // app/layout.tsx

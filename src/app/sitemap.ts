@@ -1,4 +1,4 @@
-import { getProjects } from '@/Services/projectsServices';
+import { getProjects } from '@/utils/supabase/queries';
 import { MetadataRoute } from 'next';
 
 // Simulación de datos — en tu caso puedes obtenerlos de una API o de un archivo
@@ -7,13 +7,10 @@ import { MetadataRoute } from 'next';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://carlosdamota.com';
 
-  const result  = await getProjects();
-  
-  
-    const projects = result?.projects || [];
+  const { projects } = await getProjects();
 
-  const projectUrls: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${baseUrl}/projects/${project._id}`,
+  const projectUrls: MetadataRoute.Sitemap = projects.map((project: any) => ({
+    url: `${baseUrl}/projects/${project.slug}`,
     lastModified: new Date(project.updatedAt || new Date()),
     changeFrequency: 'monthly',
     priority: 0.8,

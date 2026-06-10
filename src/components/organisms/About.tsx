@@ -20,29 +20,13 @@ export const About = () => {
           <h2 className='text-4xl md:text-5xl font-bold mb-8 text-foreground'>Sobre mí</h2>
           <div className='space-y-6 text-lg text-muted-foreground leading-relaxed'>
             <p>
-              Soy desarrollador Front-End con formación especializada en{" "}
-              <span className='text-primary font-medium'>React, Next.js y JavaScript moderno</span>.
-              Cuento con más de 14 años de experiencia en gestión de proyectos, comunicación
-              efectiva y resolución de problemas en entornos empresariales. Esta combinación de
-              habilidades me permite abordar proyectos web con una perspectiva única que equilibra
-              requisitos técnicos con necesidades de usuario.
+              Soy desarrollador <span className='text-primary font-medium'>Full-Stack</span> con formación especializada en un ecosistema moderno: <span className='text-primary font-medium'>React, Next.js, TypeScript y Node.js</span>, complementado con soluciones como <span className='text-primary font-medium'>Supabase y Firebase</span>. Mi transición al sector tecnológico llega tras más de 14 años de sólida trayectoria en el sector retail, una experiencia que me aporta una perspectiva única para entender el negocio, gestionar proyectos y resolver problemas con empatía y pragmatismo.
             </p>
             <p>
-              Me especializo en construir{" "}
-              <span className='text-primary font-medium'>
-                aplicaciones web escalables, responsivas y de alto rendimiento
-              </span>
-              , con énfasis en experiencia de usuario, accesibilidad y mejores prácticas de
-              desarrollo. Busco colaborar en proyectos desafiantes como{" "}
-              <span className='text-primary font-medium'>
-                desarrollador Front-End a tiempo completo o freelancer
-              </span>
-              .
+              Me especializo en diseñar y construir <span className='text-primary font-medium'>aplicaciones web integrales, escalables y de alto rendimiento</span>. Mi enfoque combina la arquitectura del código con los detalles de la interfaz, priorizando la experiencia de usuario y las buenas prácticas. Además, soy un adoptante temprano de los flujos de trabajo basados en <span className='text-primary font-medium'>IA y programación agéntica</span>, integrando herramientas avanzadas como <span className='text-primary font-medium'>OpenCode y Codex</span> para acelerar el desarrollo y elevar la calidad del software.
             </p>
             <p>
-              Proactivo, atento a los detalles y comprometido con la calidad del código. Siempre en
-              busca de optimizaciones, nuevas tecnologías y metodologías que mejoren la experiencia
-              del usuario y la eficiencia del desarrollo.
+              Destaco por ser proactivo, detallista y estar en constante evolución técnica, siempre buscando optimizaciones que mejoren la eficiencia del desarrollo. Busco incorporarme a proyectos desafiantes como <span className='text-primary font-medium'>desarrollador Full-Stack o Front-End a tiempo completo o freelancer</span>.
             </p>
           </div>
         </article>

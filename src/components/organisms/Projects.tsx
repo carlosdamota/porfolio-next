@@ -1,96 +1,27 @@
 import { getProjects } from "@/utils/supabase/queries";
 import React from "react";
-import Link from "next/link";
-import { ProjectSkills } from "../molecules/ProjectSkills";
-import { CardsButtons } from "../molecules/CardsButtons";
-import Image from "next/image";
-
-interface Project {
-  _id: string;
-  slug: string;
-  title: string;
-  category: string;
-  year?: number;
-  description: string;
-  gallery: string[];
-  projectSkills: string[];
-  githubProjectLink?: string;
-  liveLink?: string;
-}
+import { ProjectsCarousel } from "./ProjectsCarousel";
 
 export const Projects = async () => {
   const { projects } = await getProjects();
 
   return (
     <section
-      id='projects'
-      className='flex items-center justify-center px-4 py-16 bg-background text-foreground relative overflow-hidden'
+      id="projects"
+      className="flex items-center justify-center px-4 py-16 bg-background text-foreground relative overflow-hidden"
     >
-      <div className=' max-w-7xl mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8 '>
-        <div className='text-center space-y-4 max-w-2xl'>
-          <h2 className='text-5xl font-bold'>Proyectos Destacados</h2>
-          <p className='text-muted-foreground text-2xl'>
+      <div className="max-w-7xl mx-auto flex flex-col justify-center items-center px-4 py-2 gap-8">
+        <div className="text-center space-y-4 max-w-2xl">
+          <h2 className="text-5xl font-bold">Proyectos Destacados</h2>
+          <p className="text-muted-foreground text-2xl">
             Portafolio de aplicaciones web responsivas y modernas desarrolladas con React, Next.js y
             tecnologías actuales
           </p>
         </div>
 
-        <div className='flex flex-wrap justify-center gap-8'>
-          {projects.map((project: Project) => (
-            <div
-              key={project._id}
-              className='flex flex-col justify-between items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 max-w-sm  overflow-hidden '
-            >
-              <Image
-                className='w-full h-48 object-cover'
-                src={project.gallery[0]}
-                alt='imagen proyecto'
-                width={500}
-                height={500}
-              />
-              <div className='flex flex-col justify-between  gap-4 px-6 pt-2 pb-6 flex-1'>
-                <Link
-                  href={`/projects/${project.slug}`}
-                  passHref
-                >
-                  <div className='flex flex-wrap justify-between items-center'>
-                    <h3 className='text-lg font-bold'>{project.title}</h3>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{project.category}</span>
-                        {project.year && (
-                             <>
-                                <span>•</span>
-                                <span>{project.year}</span>
-                             </>
-                        )}
-                    </div>
-                  </div>
-                  <p className='text-muted-foreground line-clamp-3 whitespace-pre-line break-words text-sm flex-1'>
-                    {project.description}
-                  </p>
-                </Link>
-                {/* Tech Tags (Top 3) */}
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {project.projectSkills.slice(0, 3).map((tech: string) => (
-                    <span key={tech} className="px-2 py-0.5 text-xs rounded-full bg-secondary/60 text-secondary-foreground border border-border/30">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.projectSkills.length > 3 && (
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground">
-                      +{project.projectSkills.length - 3}
-                    </span>
-                  )}
-                </div>
-                <CardsButtons
-                  githubProjectLink={project.githubProjectLink}
-                  liveLink={project.liveLink}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProjectsCarousel projects={projects} />
       </div>
     </section>
   );
 };
+

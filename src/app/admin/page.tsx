@@ -26,7 +26,6 @@ export default function AdminPage() {
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: false });
     
-    // Map to the shape expected by form if needed
     const mapped = projectsData?.map(p => ({
         _id: p.id,
         title: p.title,
@@ -55,7 +54,38 @@ export default function AdminPage() {
 
   const handleCancelEdit = () => {
     setProjectToEdit(null);
-    fetchData(); // Refresh list after update
+    fetchData();
+  };
+
+  const handleMove = async (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= projects.length) return;
+
+    const project1 = projects[index];
+    const project2 = projects[targetIndex];
+
+    let order1 = project2.sort_order;
+    let order2 = project1.sort_order;
+
+    if (order1 === order2) {
+      order1 = index - 1;
+      order2 = index;
+    }
+
+    const fd1 = new FormData();
+    fd1.append("id", project1._id);
+    fd1.append("sort_order", String(order1));
+
+    const fd2 = new FormData();
+    fd2.append("id", project2._id);
+    fd2.append("sort_order", String(order2));
+
+    await Promise.all([
+      updateProjectOrder(fd1),
+      updateProjectOrder(fd2)
+    ]);
+
+    await fetchData();
   };
 
   if (isLoading) return <div className="p-8 text-center">Cargando...</div>;
@@ -79,6 +109,7 @@ export default function AdminPage() {
           {/* FORM SECTION */}
           <div className="sticky top-8">
              <CreateProjectForm 
+                key={projectToEdit ? projectToEdit._id : "new-project"}
                 projectToEdit={projectToEdit} 
                 onCancelEdit={handleCancelEdit} 
              />
@@ -88,7 +119,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold px-2">Gestionar Proyectos</h2>
             <div className="grid gap-4">
-                {projects.map((project) => (
+                {projects.map((project, idx) => (
                 <div key={project._id} className="flex gap-4 p-4 bg-card rounded-xl border border-border items-center hover:border-primary/50 transition-colors group">
                     <div className="relative w-24 h-16 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                     {project.gallery && project.gallery[0] ? (
@@ -107,6 +138,25 @@ export default function AdminPage() {
                         <p className="text-xs text-muted-foreground truncate">{project.category}</p>
                     </div>
                     <div className="flex items-center gap-2">
+                        {/* Sort buttons */}
+                        <div className="flex flex-col gap-0.5 mr-2">
+                            <button 
+                                onClick={() => handleMove(idx, 'up')}
+                                disabled={idx === 0}
+                                className="p-1 hover:bg-primary/10 text-primary rounded disabled:opacity-20 disabled:hover:bg-transparent transition-colors text-[10px] leading-none"
+                                title="Subir"
+                            >
+                                ▲
+                            </button>
+                            <button 
+                                onClick={() => handleMove(idx, 'down')}
+                                disabled={idx === projects.length - 1}
+                                className="p-1 hover:bg-primary/10 text-primary rounded disabled:opacity-20 disabled:hover:bg-transparent transition-colors text-[10px] leading-none"
+                                title="Bajar"
+                            >
+                                ▼
+                            </button>
+                        </div>
                         <button 
                             onClick={() => handleEdit(project)}
                             className="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors"
@@ -114,7 +164,14 @@ export default function AdminPage() {
                         >
                             ✏️
                         </button>
-                        <form action={deleteProject}>
+                        <form 
+                            action={deleteProject} 
+                            onSubmit={(e) => {
+                                if (!confirm(`¿Estás seguro de que deseas eliminar "${project.title}"?`)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        >
                             <input type="hidden" name="id" value={project._id} />
                             <button className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors" title="Eliminar">
                                 🗑️

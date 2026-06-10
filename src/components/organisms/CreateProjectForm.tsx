@@ -26,10 +26,15 @@ interface Props {
 export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [newImagesPreview, setNewImagesPreview] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Sync state with projectToEdit
   useEffect(() => {
+    // Revoke any existing object URLs to avoid memory leaks
+    newImagesPreview.forEach(url => URL.revokeObjectURL(url));
+    setNewImagesPreview([]);
+
     if (projectToEdit) {
       setSelectedTechs(projectToEdit.projectSkills);
       setExistingImages(projectToEdit.gallery || []);
@@ -38,6 +43,19 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
       setExistingImages([]);
     }
   }, [projectToEdit]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Clean up previous previews
+    newImagesPreview.forEach(url => URL.revokeObjectURL(url));
+
+    const files = e.target.files;
+    if (!files) {
+      setNewImagesPreview([]);
+      return;
+    }
+    const urls = Array.from(files).map(file => URL.createObjectURL(file));
+    setNewImagesPreview(urls);
+  };
 
   const handleSubmit = async (formData: FormData) => {
     setIsSubmitting(true);
@@ -52,6 +70,9 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
       await createProject(formData);
     }
     
+    // Cleanup previews
+    newImagesPreview.forEach(url => URL.revokeObjectURL(url));
+    setNewImagesPreview([]);
     setSelectedTechs([]);
     setExistingImages([]);
     setIsSubmitting(false);
@@ -74,7 +95,15 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
   };
 
   return (
-    <div className="bg-card p-8 rounded-2xl border border-border shadow-sm">
+    <div className={`bg-card p-8 rounded-2xl border transition-all duration-300 shadow-sm ${projectToEdit ? "border-primary/50 shadow-md shadow-primary/5 bg-gradient-to-br from-card via-primary-glow/2 to-card" : "border-border"}`}>
+      {projectToEdit && (
+        <div className="mb-6 flex justify-between items-center bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-xl text-xs font-semibold animate-pulse">
+          <span>✨ MODO EDICIÓN ACTIVO</span>
+          <button type="button" onClick={onCancelEdit} className="hover:underline font-bold text-[10px]">
+            CANCELAR
+          </button>
+        </div>
+      )}
       <h2 className="text-2xl font-bold mb-6">
         {projectToEdit ? `Editando: ${projectToEdit.title}` : "Crear Nuevo Proyecto"}
       </h2>
@@ -172,16 +201,30 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
         {/* Existing Images Management */}
         {existingImages.length > 0 && (
           <div className="space-y-2">
-            <label className="text-sm font-medium">Imágenes Actuales (Arrastrar para reordenar no disponible, usa botones mejor)</label>
+            <label className="text-sm font-medium text-muted-foreground">Imágenes en el servidor (Usa las flechas para ordenar)</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {existingImages.map((img, idx) => (
-                <div key={idx} className="relative group rounded-lg overflow-hidden border border-border h-24">
+                <div key={idx} className="relative group rounded-lg overflow-hidden border border-border h-24 bg-black/20">
                   <Image src={img} alt="preview" fill className="object-cover" />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity">
-                    <button type="button" onClick={() => moveImage(idx, 'up')} className="text-white p-1 bg-primary rounded">↑</button>
-                    <button type="button" onClick={() => moveImage(idx, 'down')} className="text-white p-1 bg-primary rounded">↓</button>
-                    <button type="button" onClick={() => removeImage(idx)} className="text-white p-1 bg-destructive rounded">×</button>
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity">
+                    <button type="button" onClick={() => moveImage(idx, 'up')} className="text-white p-1 bg-primary rounded hover:bg-primary/90 text-xs transition-colors">↑</button>
+                    <button type="button" onClick={() => moveImage(idx, 'down')} className="text-white p-1 bg-primary rounded hover:bg-primary/90 text-xs transition-colors">↓</button>
+                    <button type="button" onClick={() => removeImage(idx)} className="text-white p-1 bg-destructive rounded hover:bg-destructive/90 text-xs transition-colors">×</button>
                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Local selected images live preview */}
+        {newImagesPreview.length > 0 && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-primary">Nuevas imágenes seleccionadas ({newImagesPreview.length})</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {newImagesPreview.map((img, idx) => (
+                <div key={idx} className="relative rounded-lg overflow-hidden border border-primary/30 h-24 bg-black/20">
+                  <Image src={img} alt="new upload preview" fill className="object-cover" />
                 </div>
               ))}
             </div>
@@ -195,7 +238,8 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
             type="file"
             accept="image/*"
             multiple
-            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+            onChange={handleFileChange}
+            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 cursor-pointer"
           />
         </div>
 
@@ -205,7 +249,7 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
             disabled={isSubmitting}
             className="flex-1 py-3 font-semibold text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
-            {isSubmitting ? "Guardando..." : projectToEdit ? "Actualizar" : "Publicar"}
+            {isSubmitting ? "Guardando..." : projectToEdit ? "Guardar Cambios" : "Publicar Proyecto"}
           </button>
           {projectToEdit && (
             <button

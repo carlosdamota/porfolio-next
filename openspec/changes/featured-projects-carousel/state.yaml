@@ -1,0 +1,17 @@
+change: featured-projects-carousel
+phase: archived
+status: archived
+execution_mode: interactive
+artifact_store: hybrid
+delivery_strategy: ask-on-risk
+dependencies:
+  init: done
+  explore: done
+  proposal: done
+  spec: done
+  design: done
+  tasks: done
+  apply: done
+  verify: done
+  archive: done
+

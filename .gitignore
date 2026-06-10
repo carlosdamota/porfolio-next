@@ -42,6 +42,7 @@ next-env.d.ts
 
 # agent & technical docs
 .antigravity/
+.atl/
 AGENT_MCP_RULES.md
 TECH_STACK_RULES.md
 mcp-config.json

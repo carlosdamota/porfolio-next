@@ -1,0 +1,32 @@
+schema: spec-driven
+
+context: |
+  Tech stack: Next.js 16 (App Router), React 19, daisyUI 5, Tailwind CSS 4, Supabase, Resend, ESLint, Prettier, TypeScript.
+  Architecture: Component-driven (Atoms/Molecules/Organisms/Templates) in src/components/
+  Testing: None
+  Style: Tailwind v4 inline styles, CSS Variables in globals.css
+
+rules:
+  proposal:
+    - Include rollback plan for UI/UX regressions
+  specs:
+    - Focus on user interactions and browser behaviors (no-JS support)
+  design:
+    - Prioritize pure CSS/HTML structures before relying on JS/React state
+  tasks:
+    - Break down into component edits and styling additions
+  apply:
+    - Keep responsive layouts across mobile/desktop
+    tdd: false
+    test_command: ""
+  verify:
+    build_command: "pnpm build"
+    test_command: "pnpm lint"
+
+testing:
+  strict_tdd: false
+  capabilities: |
+    - Test Runner: None
+    - Linter: ESLint
+    - Formatter: Prettier
+    - Type Checker: TypeScript

@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     images: ["https://carlosdamota.com/og-image.webp"],
   },
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.webp",
   },
 };
 export default function RootLayout({

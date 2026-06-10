@@ -11,7 +11,7 @@ export const Contact = () => {
       id='contact'
       className='max-w-5xl mx-auto py-16 px-4 sm:px-6 lg:px-8'
     >
-      <div className='flex flex-col justify-center items-center gap-8 '>
+      <div className='flex flex-col justify-center items-center gap-8 ' id='contact'>
         <div className='text-center space-y-4 max-w-2xl'>
           <h2 className='text-4xl font-bold'>Ponte en Contacto</h2>
           <p className='text-muted-foreground text-xl'>

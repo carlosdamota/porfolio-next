@@ -161,13 +161,17 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Descripción</label>
+          <div className="flex justify-between items-center">
+             <label className="text-sm font-medium">Descripción</label>
+             <span className="text-[10px] text-primary/80 font-medium">✨ Soporta Markdown</span>
+          </div>
           <textarea
             name="description"
             required
-            rows={4}
+            rows={6}
+            placeholder="Escribe la descripción del proyecto. Puedes usar Markdown: **negrita**, # Encabezados, - Listas, [enlaces](url)..."
             defaultValue={projectToEdit?.description || ""}
-            className="w-full px-4 py-2 border rounded-lg bg-background"
+            className="w-full px-4 py-2 border rounded-lg bg-background text-sm leading-relaxed"
           />
         </div>
 

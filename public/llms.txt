@@ -1,0 +1,53 @@
+# Carlos Damota
+
+Desarrollador Full-Stack especializado en el ecosistema moderno de JavaScript, TypeScript y arquitecturas web de alto rendimiento. Con más de 14 años de experiencia previa en la gestión y resolución de problemas en el sector retail, aporta una mentalidad de negocio y empatía al desarrollo de software.
+
+## Perfil Profesional
+- **Rol**: Desarrollador Full-Stack / Front-End
+- **Ubicación**: Oviedo, Asturias, España (Disponible para remoto y colaboraciones freelance)
+- **Email**: daimondoomdev@duck.com
+- **LinkedIn**: https://www.linkedin.com/in/carlos-damota/
+- **GitHub**: https://github.com/CarlosDamota
+
+## Stack Tecnológico Principal
+
+### Desarrollo Frontend
+- React
+- Next.js (Rutas de App, SSR, ISR)
+- TypeScript
+- JavaScript (ES6+)
+- HTML5 / CSS3 / Sass
+- Tailwind CSS / DaisyUI
+
+### Backend y Bases de Datos
+- Node.js
+- Express.js
+- Supabase (PostgreSQL, RLS)
+- Firebase
+- MongoDB
+- MySQL
+- PHP
+
+### Integraciones y Servicios
+- Stripe (Pagos web, checkout, impuestos)
+- Resend (Envío de correos transaccionales)
+- Google Cloud
+- Google Analytics
+
+### Herramientas y Metodologías
+- Git & GitHub
+- Docker
+- VS Code & Postman
+- Metodologías ágiles
+- Desarrollo impulsado por especificaciones (SDD) y flujos de trabajo asistidos por IA (Agéntico)
+
+## Proyectos Destacados
+
+### 1. Elena Damota Art Portfolio & Tienda
+- **Descripción**: Galería de arte premium y tienda online autogestionada para la artista Elena Damota.
+- **Tecnologías**: React, Next.js, Supabase, Tailwind CSS, Stripe, Resend.
+- **Características**: Soporte completo para descripciones en Markdown, gestión de stock e inventario dinámico, cobro automatizado de IVA y pasarela de pago Stripe, panel de control administrativo y previsualizaciones personalizadas por producto.
+
+---
+
+Este archivo sirve como referencia estructurada de alta densidad para agentes de inteligencia artificial y modelos de lenguaje grande (LLM).

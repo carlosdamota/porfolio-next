@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CardsButtons } from "../molecules/CardsButtons";
+import { stripMarkdown } from "@/utils/text";
 
 interface Project {
   _id: string;
@@ -43,7 +44,7 @@ export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) 
       {/* Visible on hover on desktop, hidden on mobile/tablet because swipe is native */}
       <button
         onClick={() => scroll("left")}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 hover:-translate-x-14 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-primary text-white hover:text-primary-foreground border border-white/10 shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hidden md:flex group/btn hover:scale-110 active:scale-95"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 hover:-translate-x-14 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-primary text-white hover:text-primary-foreground border border-white/10 shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hidden md:flex group/btn hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary outline-none"
         aria-label="Anterior proyecto"
       >
         <svg
@@ -60,7 +61,7 @@ export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) 
 
       <button
         onClick={() => scroll("right")}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hover:translate-x-14 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-primary text-white hover:text-primary-foreground border border-white/10 shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hidden md:flex group/btn hover:scale-110 active:scale-95"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hover:translate-x-14 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-primary text-white hover:text-primary-foreground border border-white/10 shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hidden md:flex group/btn hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary outline-none"
         aria-label="Siguiente proyecto"
       >
         <svg
@@ -86,52 +87,60 @@ export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) 
             id={`project-slide-${index}`}
             className="carousel-item relative w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] shrink-0 snap-start"
           >
-            <div className="flex flex-col justify-between items-center outline-1 rounded-2xl bg-card gap-4 outline-accent-foreground hover:outline-primary hover:shadow-lg shadow-primary hover:bg-gradient-to-br from-card via-primary-glow/10 via-10% to-card hover:transition-colors duration-700 w-full overflow-hidden">
-              <Image
-                className="w-full h-48 object-cover"
-                src={project.gallery[0]}
-                alt="imagen proyecto"
-                width={500}
-                height={500}
-              />
-              <div className="flex flex-col justify-between gap-4 px-6 pt-2 pb-6 flex-1 w-full">
+            <div className="flex flex-col justify-between items-center rounded-2xl bg-card border border-border/50 hover:border-primary/40 gap-4 hover:shadow-xl hover:shadow-primary/5 hover:bg-gradient-to-br from-card via-primary/5 to-card transition-all duration-300 w-full overflow-hidden group/card flex-1 min-h-[460px]">
+              <div className="w-full h-48 overflow-hidden shrink-0 relative">
+                 <div className="absolute inset-0 bg-gradient-to-t from-card/30 to-transparent z-10" />
+                 <Image
+                   className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+                   src={project.gallery[0]}
+                   alt={`Imagen del proyecto ${project.title}`}
+                   width={500}
+                   height={300}
+                 />
+              </div>
+              <div className="flex flex-col justify-between gap-4 px-5 pb-5 pt-1 flex-1 w-full">
                 <Link
                   href={`/projects/${project.slug}`}
                   passHref
+                  className="space-y-3 flex-1 flex flex-col justify-between group/link"
                 >
-                  <div className="flex flex-wrap justify-between items-center">
-                    <h3 className="text-lg font-bold">{project.title}</h3>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{project.category}</span>
-                        {project.year && (
-                             <>
-                                <span>•</span>
-                                <span>{project.year}</span>
-                             </>
-                        )}
-                    </div>
+                  <div className="space-y-2">
+                     <div className="flex flex-wrap justify-between items-start gap-1">
+                       <h3 className="text-lg font-bold group-hover/link:text-primary transition-colors line-clamp-1">{project.title}</h3>
+                       <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">
+                           <span>{project.category}</span>
+                           {project.year && (
+                                <>
+                                   <span>•</span>
+                                   <span>{project.year}</span>
+                                </>
+                           )}
+                       </div>
+                     </div>
+                     <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed font-light">
+                       {stripMarkdown(project.description)}
+                     </p>
                   </div>
-                  <p className="text-muted-foreground line-clamp-3 whitespace-pre-line break-words text-sm flex-1">
-                    {project.description}
-                  </p>
                 </Link>
-                {/* Tech Tags (Top 3) */}
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {project.projectSkills.slice(0, 3).map((tech: string) => (
-                    <span key={tech} className="px-2 py-0.5 text-xs rounded-full bg-secondary/60 text-secondary-foreground border border-border/30">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.projectSkills.length > 3 && (
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground">
-                      +{project.projectSkills.length - 3}
-                    </span>
-                  )}
+                <div className="space-y-4 pt-2 border-t border-border/30 mt-auto">
+                   {/* Tech Tags */}
+                   <div className="flex flex-wrap gap-1.5">
+                     {project.projectSkills.slice(0, 3).map((tech: string) => (
+                       <span key={tech} className="px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors cursor-default">
+                         {tech}
+                       </span>
+                     ))}
+                     {project.projectSkills.length > 3 && (
+                       <span className="px-2 py-0.5 text-xs rounded-full bg-secondary text-secondary-foreground">
+                         +{project.projectSkills.length - 3}
+                       </span>
+                     )}
+                   </div>
+                   <CardsButtons
+                     githubProjectLink={project.githubProjectLink}
+                     liveLink={project.liveLink}
+                   />
                 </div>
-                <CardsButtons
-                  githubProjectLink={project.githubProjectLink}
-                  liveLink={project.liveLink}
-                />
               </div>
             </div>
           </div>

@@ -24,6 +24,12 @@ export const metadata: Metadata = {
   verification: {
     google: "5KpsD4cTnwJmjEOALTyxIoK-uz7YNLzs5MWU32FjA2g",
   },
+  other: {
+    "geo.region": "ES-AS",
+    "geo.placename": "Oviedo",
+    "geo.position": "43.3603;-5.8448",
+    "ICBM": "43.3603, -5.8448",
+  },
   keywords: [
     "desarrollador front-end",
     "desarrollador React",

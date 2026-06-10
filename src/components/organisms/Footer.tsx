@@ -28,7 +28,7 @@ export const Footer = () => {
       </div>
       </div>
       <hr className='w-4/5 opacity-10 self-center'></hr>
-      <p className='text-muted-foreground text-xs self-center'>© 2025 Carlos Damota. Todos los derechos reservados.</p>
+      <p className='text-muted-foreground text-xs self-center'>© 2026 Carlos Damota. Todos los derechos reservados.</p>
     </section>
   )
 }

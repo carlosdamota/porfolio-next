@@ -18,7 +18,7 @@ export async function login(formData: FormData) {
 
   if (error) {
     console.error('Login error', error)
-    return // { error: 'Credenciales inválidas' }
+    redirect('/login?error=invalid_credentials')
   }
 
   revalidatePath('/', 'layout')

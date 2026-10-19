@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CardsButtons } from "../molecules/CardsButtons";
@@ -25,6 +25,26 @@ interface ProjectsCarouselProps {
 
 export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (carouselRef.current) {
+      const scrollLeft = carouselRef.current.scrollLeft;
+      const firstChild = carouselRef.current.firstElementChild as HTMLElement;
+      if (firstChild) {
+        const itemWidth = firstChild.clientWidth + 24;
+        const index = Math.round(scrollLeft / itemWidth);
+        setActiveIndex(Math.min(Math.max(0, index), projects.length - 1));
+      }
+    }
+  };
+
+  const scrollToSlide = (index: number) => {
+    const slide = document.getElementById(`project-slide-${index}`);
+    if (slide && carouselRef.current) {
+      slide.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    }
+  };
 
   const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
@@ -79,6 +99,7 @@ export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) 
       {/* Carousel container */}
       <div
         ref={carouselRef}
+        onScroll={handleScroll}
         className="carousel w-full gap-6 py-4 scrollbar-none scroll-smooth overflow-x-auto snap-x snap-mandatory"
       >
         {projects.map((project: Project, index: number) => (
@@ -146,6 +167,23 @@ export const ProjectsCarousel: React.FC<ProjectsCarouselProps> = ({ projects }) 
           </div>
         ))}
       </div>
+
+      {/* Mobile/Tablet pagination indicator */}
+      {projects.length > 1 && (
+        <div className="flex md:hidden justify-center items-center gap-2 pt-2">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => scrollToSlide(i)}
+              aria-label={`Ir al proyecto ${i + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeIndex === i ? "w-6 bg-primary" : "w-2 bg-border hover:bg-muted-foreground/50"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

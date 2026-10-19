@@ -18,11 +18,11 @@ export const About = () => {
           <div className="relative p-2 bg-gradient-to-tr from-primary/25 via-border/60 to-accent/25 rounded-[24px] shadow-2xl transition-all duration-500 hover:rotate-1 hover:scale-[1.02]">
             <Image
               className='w-full max-w-[380px] h-[340px] md:h-[400px] object-cover object-top rounded-2xl bg-card'
-              src='/Foto_perfil.jpg'
+              src='/Foto_perfil.webp'
               alt='Foto de perfil de Carlos Damota'
               width={400}
               height={450}
-              priority
+              loading="lazy"
             />
           </div>
         </div>

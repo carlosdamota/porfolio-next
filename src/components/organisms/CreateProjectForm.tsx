@@ -21,9 +21,10 @@ interface ProjectToEdit {
 interface Props {
   projectToEdit?: ProjectToEdit | null;
   onCancelEdit?: () => void;
+  onSuccess?: (type: 'created' | 'updated') => void;
 }
 
-export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
+export const CreateProjectForm = ({ projectToEdit, onCancelEdit, onSuccess }: Props) => {
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [newImagesPreview, setNewImagesPreview] = useState<string[]>([]);
@@ -66,8 +67,10 @@ export const CreateProjectForm = ({ projectToEdit, onCancelEdit }: Props) => {
       formData.set("existingImages", JSON.stringify(existingImages));
       await updateProject(formData);
       if (onCancelEdit) onCancelEdit();
+      if (onSuccess) onSuccess('updated');
     } else {
       await createProject(formData);
+      if (onSuccess) onSuccess('created');
     }
     
     // Cleanup previews

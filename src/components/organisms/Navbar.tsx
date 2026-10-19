@@ -19,7 +19,7 @@ export const Navbar = () => {
 
         {/* Desktop navigation */}
         <nav className='items-center hidden md:flex' aria-label="Navegación principal">
-          <ul className='flex gap-4 md:gap-8 font-semibold text-md'>
+          <ul className='flex gap-4 md:gap-7 font-semibold text-md'>
             <li className='text-muted-foreground hover:text-primary transition-colors'>
               <Link href="/#about">Sobre mí</Link>
             </li>
@@ -31,6 +31,9 @@ export const Navbar = () => {
             </li>
             <li className='text-muted-foreground hover:text-primary transition-colors'>
               <Link href="/#skills">Habilidades</Link>
+            </li>
+            <li className='text-muted-foreground hover:text-primary transition-colors'>
+              <Link href="/docs">Docs</Link>
             </li>
             <li className='text-muted-foreground hover:text-primary transition-colors'>
               <Link href="/#contact">Contacto</Link>
@@ -74,6 +77,9 @@ export const Navbar = () => {
             </li>
             <li className='text-muted-foreground hover:text-primary'>
               <Link href="/#skills" onClick={closeMenu}>Habilidades</Link>
+            </li>
+            <li className='text-muted-foreground hover:text-primary'>
+              <Link href="/docs" onClick={closeMenu}>Docs</Link>
             </li>
             <li className='text-muted-foreground hover:text-primary'>
               <Link href="/#contact" onClick={closeMenu}>Contacto</Link>

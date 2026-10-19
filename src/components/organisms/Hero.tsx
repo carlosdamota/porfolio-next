@@ -65,9 +65,9 @@ export const Hero = () => {
         </h1>
         
         <p className='text-lg sm:text-xl md:text-2xl font-light text-muted-foreground max-w-2xl mx-auto leading-relaxed'>
-          Desarrollador <span className="text-foreground font-semibold">Full-Stack</span> especializado en crear{" "}
+          Desarrollador <span className="text-foreground font-semibold">Full-Stack</span> especializado en{" "}
           <span className='text-primary font-medium border-b border-primary/20 pb-0.5 hover:border-primary transition-colors duration-300'>
-            interfaces interactivas, escalables y modernas.
+            productos web escalables, IA agéntica y optimización de rendimiento.
           </span>
         </p>
         
@@ -91,11 +91,11 @@ export const Hero = () => {
       {/* Scroll Down Indicator */}
       <a 
         href="#about" 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-primary transition-all duration-300 cursor-pointer z-20 hover:scale-105"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300 cursor-pointer z-20 hover:scale-105"
         aria-label="Desplazar hacia abajo"
       >
         <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Descubrir</span>
-        <div className="w-5 h-9 border border-current rounded-full flex justify-center p-1 opacity-70">
+        <div className="w-5 h-9 border border-current rounded-full flex justify-center p-1 opacity-80">
           <div className="w-1 h-2 bg-current rounded-full animate-bounce" />
         </div>
       </a>

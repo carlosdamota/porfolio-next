@@ -14,6 +14,7 @@ export const FormContact = () => {
   });
 
   const [status, setStatus] = useState('');
+  const isSubmitting = status === 'Enviando...';
 
   const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,13 +90,18 @@ export const FormContact = () => {
         
         <button 
           type='submit' 
-          className='w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary-glow shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 mt-2 text-sm uppercase tracking-wider'
+          disabled={isSubmitting}
+          className='w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary-glow shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none transition-all duration-200 mt-2 text-sm uppercase tracking-wider'
         >
-          Enviar Mensaje
+          {isSubmitting ? 'Enviando mensaje...' : 'Enviar Mensaje'}
         </button>
         
         {status && (
-          <p className={`text-center text-xs font-medium mt-2 p-2.5 rounded-lg ${status.includes('correctamente') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+          <p 
+            role="status"
+            aria-live="polite"
+            className={`text-center text-xs font-medium mt-2 p-2.5 rounded-lg ${status.includes('correctamente') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}
+          >
             {status}
           </p>
         )}

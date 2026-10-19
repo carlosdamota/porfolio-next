@@ -12,6 +12,7 @@ interface ButtonProps {
   style?: "primary" | "secondary" | "primary-card" | "secondary-card";
   className?: string;
   disabled?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 
@@ -23,9 +24,10 @@ export const Button = ({
   style = "primary",
   className = "",
   disabled = false,
+  onClick,
 }: ButtonProps) => {
     const styles: Record<string, string> = {
-        'primary': 'bg-primary/50 text-primary-foreground hover:bg-primary-glow hover:text-primary-foreground text-md hover:scale-104 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/70  animate-pulse',
+        'primary': 'bg-primary/50 text-primary-foreground hover:bg-primary-glow hover:text-primary-foreground text-md hover:scale-104 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/70',
         'secondary': ' rounded-xl bg-background text-primary hover:bg-primary-glow/20 hover:text-primary-foreground hover:outline-primary/40 hover:scale-104 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/40 ',
         'primary-card': 'bg-primary/50 text-primary-foreground hover:bg-primary-glow hover:text-primary-foreground hover:scale-102 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/70 w-full  max-w-sm',
         'secondary-card': ' rounded-xl bg-background text-primary hover:bg-primary-glow/20 hover:text-primary-foreground hover:outline-primary/40 hover:scale-105 transition-transform duration-200 shadow-md hover:shadow-lg hover:shadow-primary/40 w-full max-w-sm',
@@ -33,6 +35,9 @@ export const Button = ({
 
     const handlerOnClick = (e: React.MouseEvent) => {
         e.stopPropagation()
+        if (onClick) {
+          onClick(e)
+        }
       };
 
     const baseStyles = "px-4 sm:px-6 md:px-8 py-2 rounded-xl gap-4 text-sm sm:text-md flex items-center justify-center glass";

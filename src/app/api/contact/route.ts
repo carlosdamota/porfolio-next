@@ -1,8 +1,16 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: "Resend API key not configured" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const resend = new Resend(apiKey);
+
   try {
     const { name, email, message } = await req.json();
 

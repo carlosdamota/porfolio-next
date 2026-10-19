@@ -3,7 +3,12 @@ import { login } from "@/actions/auth";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -15,6 +20,15 @@ export default async function LoginPage() {
     <section className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-2xl border border-border shadow-xl">
         <h1 className="text-3xl font-bold text-center text-primary">Admin Login</h1>
+
+        {error === 'invalid_credentials' && (
+          <div
+            role="alert"
+            className="p-3 text-sm text-destructive-foreground bg-destructive/15 border border-destructive/30 rounded-lg text-center"
+          >
+            Credenciales incorrectas. Verifica tu correo y contraseña.
+          </div>
+        )}
         
         <form className="space-y-4" action={login}>
           <div className="space-y-2">

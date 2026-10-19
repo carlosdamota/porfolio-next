@@ -4,8 +4,79 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+async function requireUser(supabase: any) {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser()
+  if (error || !user) {
+    throw new Error('No autorizado. Debes iniciar sesión como administrador.')
+  }
+  return user
+}
+
+function extractStoragePath(imageUrl: string, bucket = 'portfolio-images'): string | null {
+  if (!imageUrl || typeof imageUrl !== 'string') return null
+  
+  try {
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      const url = new URL(imageUrl)
+      const marker = `/storage/v1/object/public/${bucket}/`
+      const index = url.pathname.indexOf(marker)
+      if (index !== -1) {
+        return decodeURIComponent(url.pathname.substring(index + marker.length))
+      }
+
+      const bucketMarker = `/${bucket}/`
+      const bIndex = url.pathname.indexOf(bucketMarker)
+      if (bIndex !== -1) {
+        return decodeURIComponent(url.pathname.substring(bIndex + bucketMarker.length))
+      }
+
+      return null
+    }
+
+    const marker = `/${bucket}/`
+    const index = imageUrl.indexOf(marker)
+    if (index !== -1) {
+      const pathPart = imageUrl.substring(index + marker.length).split('?')[0].split('#')[0]
+      return decodeURIComponent(pathPart)
+    }
+
+    if (!imageUrl.includes('/')) {
+      return decodeURIComponent(imageUrl.split('?')[0].split('#')[0])
+    }
+
+    return null
+  } catch (err) {
+    console.error('Error parsing storage path from URL:', imageUrl, err)
+    return null
+  }
+}
+
+async function removeStorageImages(supabase: any, urls: string[], bucket = 'portfolio-images') {
+  if (!urls || urls.length === 0) return
+
+  const paths = urls
+    .map(url => extractStoragePath(url, bucket))
+    .filter((path): path is string => Boolean(path && path.trim().length > 0))
+
+  if (paths.length === 0) return
+
+  try {
+    const { data, error } = await supabase.storage.from(bucket).remove(paths)
+    if (error) {
+      console.error('Error removing files from storage:', error)
+    }
+    return data
+  } catch (err) {
+    console.error('Unexpected error removing files from storage:', err)
+  }
+}
+
 export async function createProject(formData: FormData) {
   const supabase = await createClient()
+  await requireUser(supabase)
 
   // 1. Upload Multiple Images
   const imageFiles = formData.getAll('images') as File[]
@@ -69,6 +140,9 @@ export async function createProject(formData: FormData) {
 
   if (insertError) {
     console.error('Error inserting project', insertError)
+    if (imageUrls.length > 0) {
+      await removeStorageImages(supabase, imageUrls)
+    }
     return
   }
 
@@ -79,8 +153,21 @@ export async function createProject(formData: FormData) {
 
 export async function deleteProject(formData: FormData) {
   const supabase = await createClient()
+  await requireUser(supabase)
   const id = formData.get('id') as string
 
+  // 1. Fetch project images to clean up storage after deletion
+  const { data: project, error: fetchError } = await supabase
+    .from('projects')
+    .select('images')
+    .eq('id', id)
+    .single()
+
+  if (fetchError) {
+    console.error('Error fetching project before deletion', fetchError)
+  }
+
+  // 2. Delete project from database
   const { error } = await supabase
     .from('projects')
     .delete()
@@ -91,12 +178,19 @@ export async function deleteProject(formData: FormData) {
     return
   }
 
+  // 3. Clean up associated images in Supabase Storage
+  if (project?.images && Array.isArray(project.images) && project.images.length > 0) {
+    await removeStorageImages(supabase, project.images)
+  }
+
   revalidatePath('/admin')
   revalidatePath('/projects')
+  revalidatePath('/')
 }
 
 export async function updateProjectOrder(formData: FormData) {
   const supabase = await createClient()
+  await requireUser(supabase)
   const id = formData.get('id') as string
   const sort_order = parseInt(formData.get('sort_order') as string)
 
@@ -117,13 +211,27 @@ export async function updateProjectOrder(formData: FormData) {
 
 export async function updateProject(formData: FormData) {
   const supabase = await createClient()
+  await requireUser(supabase)
   const id = formData.get('id') as string
   
-  // 1. Get current images from form (these are the ones already in Supabase, possibly reordered)
-  const existingImagesJson = formData.get('existingImages') as string
-  let imageUrls: string[] = existingImagesJson ? JSON.parse(existingImagesJson) : []
+  // 1. Fetch current project to detect images being removed
+  const { data: currentProject } = await supabase
+    .from('projects')
+    .select('images')
+    .eq('id', id)
+    .single()
 
-  // 2. Upload NEW Images
+  const oldImages: string[] = currentProject?.images || []
+
+  // 2. Get current images from form (these are the ones already in Supabase, possibly reordered)
+  const existingImagesJson = formData.get('existingImages') as string
+  const keptImages: string[] = existingImagesJson ? JSON.parse(existingImagesJson) : []
+  let imageUrls: string[] = [...keptImages]
+
+  // Track newly uploaded images to clean up if database update fails
+  const newlyUploadedUrls: string[] = []
+
+  // 3. Upload NEW Images
   const newImageFiles = formData.getAll('images') as File[]
   
   for (const imageFile of newImageFiles) {
@@ -143,11 +251,12 @@ export async function updateProject(formData: FormData) {
         .from('portfolio-images')
         .getPublicUrl(fileName)
         
+      newlyUploadedUrls.push(publicUrl)
       imageUrls.push(publicUrl)
     }
   }
 
-  // 3. Update Project Data
+  // 4. Update Project Data
   const title = formData.get('title') as string
   const description = formData.get('description') as string
   const repoUrl = formData.get('repoUrl') as string
@@ -184,7 +293,17 @@ export async function updateProject(formData: FormData) {
 
   if (updateError) {
     console.error('Error updating project', updateError)
+    // Clean up newly uploaded files if DB update failed
+    if (newlyUploadedUrls.length > 0) {
+      await removeStorageImages(supabase, newlyUploadedUrls)
+    }
     return
+  }
+
+  // 5. Clean up discarded images from storage now that DB update succeeded
+  const discardedImages = oldImages.filter(img => !keptImages.includes(img))
+  if (discardedImages.length > 0) {
+    await removeStorageImages(supabase, discardedImages)
   }
 
   revalidatePath('/admin')

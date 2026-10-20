@@ -10,6 +10,8 @@ export async function POST(req: Request) {
   }
 
   const resend = new Resend(apiKey);
+  const fromEmail = process.env.EMAIL_FROM || '"Carlos Damota" <contacto@fittwiz.app>';
+  const toEmail = process.env.CONTACT_EMAIL || "cdamota.cd@gmail.com";
 
   try {
     const { name, email, message } = await req.json();
@@ -21,9 +23,10 @@ export async function POST(req: Request) {
       });
     }
 
-    await resend.emails.send({
-      from:'"Portfolio Next" <onboarding@resend.dev>',
-      to: "cdamota.cd@gmail.com",
+    const notification = await resend.emails.send({
+      from: fromEmail,
+      to: toEmail,
+      replyTo: email,
       subject: `Nuevo mensaje de ${name}`,
       html: `
         <h3>Nuevo mensaje desde tu portfolio</h3>
@@ -34,8 +37,16 @@ export async function POST(req: Request) {
       `,
     });
 
+    if (notification.error) {
+      console.error("Error enviando notificación interna:", notification.error);
+      return new Response(JSON.stringify({ error: notification.error.message }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     await resend.emails.send({
-      from: '"Portfolio Next" <onboarding@resend.dev>',
+      from: fromEmail,
       to: email,
       subject: 'Gracias por contactarme',
       html: `
@@ -43,6 +54,8 @@ export async function POST(req: Request) {
         <p>He recibido tu mensaje y te responderé pronto.</p>
         <p>Saludos,<br>Carlos Damota</p>
       `,
+    }).catch((err) => {
+      console.error("Error enviando auto-respuesta de cortesía:", err);
     });
 
     return new Response(JSON.stringify({ success: true }), {
@@ -50,7 +63,7 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error inesperado en /api/contact:", error);
     return new Response(JSON.stringify({ error: "Error al enviar" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

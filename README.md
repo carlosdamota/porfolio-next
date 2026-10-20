@@ -78,6 +78,8 @@ src/
 NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
 RESEND_API_KEY=tu_api_key_de_resend
+EMAIL_FROM="Carlos Damota" <contacto@fittwiz.app>
+CONTACT_EMAIL=cdamota.cd@gmail.com
 ```
 
 ---

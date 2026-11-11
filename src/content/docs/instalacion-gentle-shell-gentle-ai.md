@@ -1,147 +1,288 @@
 ---
-title: "Guía Completa de Gentle-AI y Gentle-Shell: Instalación, ODD y Flujo Agéntico"
+title: "Guía Completa de Gentle-Shell y Gentle-AI: Instalación, ODD y Revisión Nativa"
 slug: "instalacion-gentle-shell-gentle-ai"
-description: "Manual de configuración, métodos de instalación (v4.3.0), atajos de teclado y flujo de desarrollo con Organic Driven Development (ODD) para Pi coding agent."
+description: "Manual actualizado (gentle-pi 4.7.0): instalación, atajos, modos de permisos, Organic Driven Development y revisión nativa con cuatro lentes sobre Pi."
 category: "Ecosistema IA"
-tags: ["Gentle-AI", "Gentle-Shell", "Pi Agent", "ODD", "Dev Environment", "v4.3.0"]
+tags: ["Gentle-AI", "Gentle-Shell", "Pi Agent", "ODD", "RDD", "Dev Environment", "v4.7.0"]
 date: "2026-10-19"
+updatedAt: "2026-11-11"
 author: "Carlos Damota"
-readTime: "8 min de lectura"
+readTime: "12 min de lectura"
 ---
 
-# Guía de Gentle-AI y Gentle-Shell: Entorno de Desarrollo Agéntico
+# Guía de Gentle-Shell y Gentle-AI: Entorno de Desarrollo Agéntico
 
-> **Versión actual de referencia:** `v4.3.0` (última versión estable publicada en npm).  
+> **Versión de referencia:** paquete `gentle-pi` `4.7.0` (última publicada en npm), launcher `gentle-shell` `1.5.0`.
 > **Requisitos mínimos:** Node.js `>= 22.19.0` y Pi `>= 1.2.0`.
 
-En el desarrollo de software asistido por agentes autónomos de código, el mayor cuello de botella rara vez es la capacidad del modelo para generar código: suele ser **la pérdida de contexto, la falta de control visual sobre lo que modifica y la ausencia de una metodología disciplinada** que evite romper código existente.
+En el desarrollo asistido por agentes autónomos, el cuello de botella rara vez es la capacidad del modelo para generar código: suele ser **la pérdida de contexto, la falta de control visual sobre lo que modifica y la ausencia de una metodología disciplinada** que evite romper código existente.
 
-**Gentle-Shell** (paquete `gentle-pi`) convierte el harness de terminal **Pi** en una estación de trabajo completa para liderar agentes de desarrollo bajo la metodología **Organic Driven Development (ODD)**.
-
----
-
-## Diferencias: ¿Qué es cada componente?
-
-* **Pi (`@earendil-works/pi-coding-agent`):** El runtime base y motor de ejecución en terminal.
-* **gentle-shell:** La interfaz TUI y entorno de trabajo. Proporciona paneles laterales con estado en tiempo real, visor de diffs Git en pantalla completa (`alt+g`), panel de subagentes (`alt+a`), paleta de comandos (`alt+k`) y gestión de procesos en segundo plano.
-* **gentle-ai:** El CLI y conjunto de extensiones que gobiernan el flujo ODD, la sincronización de assets, contratos de revisión de código y delegación justificada a subagentes.
-* **el Gentleman:** El perfil de arquitecto senior que coordina las sesiones: conceptos antes de código, pruebas primero (TDD) cuando aplica y justificación rigurosa antes de cada refactor.
+**Gentle-Shell** convierte el harness de terminal **Pi** en una estación de trabajo para dirigir agentes bajo **Organic Driven Development (ODD)**, con revisión de código nativa como segunda opinión obligatoria en los cambios de alto riesgo.
 
 ---
 
-## Métodos de Instalación (v4.3.0)
+## Diferencias: ¿qué es cada componente?
 
-Existen dos vías principales según si ya utilizas Pi o prefieres un entorno aislado sin interferencias.
+* **Pi (`@earendil-works/pi-coding-agent`):** el runtime base y motor de ejecución en terminal.
+* **Gentle-Shell:** el producto y launcher. Abre Pi con la interfaz TUI cargada: paneles laterales de estado, visor de diffs Git, tarjeta de subagentes, paleta de comandos y procesos en segundo plano. Su paquete npm sigue llamándose `gentle-pi` durante la transición de nombre.
+* **Gentle-AI (`gentle-ai`):** binario nativo con versionado propio que gobierna el ciclo de vida: sincronización de assets, autoridad de revisión, inventario de skills y utilidades de repositorio. Su versión no tiene por qué coincidir con la del paquete npm; verifica siempre con `gentle-ai --version`.
+* **el Gentleman:** el perfil de arquitecto senior que coordina las sesiones: conceptos antes de código, pruebas primero cuando aplica y justificación explícita antes de cada cambio.
 
-### Método A: Standalone vía npm (Recomendado)
-Instala `gentle-shell` de forma global. Crea su propio entorno aislado en `~/.gentle-shell` sin alterar la configuración previa de Pi:
+---
+
+## Instalación
+
+### Recomendado: instalador en navegador
+
+El instalador descarga Node.js, pnpm, Pi y Gentle Shell en un prefijo propio, y actualiza una instalación previa si la encuentra. No modifica nada hasta que confirmas el plan.
 
 ```bash
-# 1. Instalar el paquete global (v4.3.0)
-npm i -g gentle-pi@latest
+# macOS / Linux (desde un checkout del repositorio)
+scripts/bootstrap.sh
 
-# 2. Iniciar gentle-shell en tu proyecto (home aislado)
+# Windows
+scripts\bootstrap.cmd
+```
+
+Abre un asistente en una dirección privada `127.0.0.1`. El enlace funciona una sola vez y caduca a los 2 minutos. En la pantalla de revisión puedes elegir:
+
+* **Latest release (recomendada):** la versión publicada con su binario de Gentle AI fijado.
+* **Latest main:** builds de desarrollo del último commit de `main`, compilados en tu equipo (requiere Go y pnpm).
+
+### Ruta A: `gentle-shell` standalone (no toca tu Pi)
+
+Instala el launcher de forma global. Usa su propio home en `~/.gentle-shell/agent` y guarda su configuración en `~/.gentle-shell/gentle-ai`, sin alterar tu instalación de Pi:
+
+```bash
+npm i -g gentle-pi
+
+# Home aislado (por defecto)
 gentle-shell
 
-# 3. (Opcional) Vincular tus modelos y logins existentes de Pi
+# Reutilizar tus logins, modelos y chats de Pi
 gentle-shell --link
+
+# Volver a aprovisionar el home por tu cuenta
+gentle-shell setup
+```
+
+Para fijar `--link` como comportamiento por defecto, o mantener el home separado copiando solo credenciales y MCPs:
+
+```bash
+gentle-shell home link
+gentle-shell home import-pi --dry-run
+gentle-shell home import-pi
 ```
 
 > [!TIP]
-> Si deseas sincronizar tus credenciales de proveedores (OpenAI, Anthropic, Google, NaN) desde tu Pi local hacia el nuevo entorno de Gentle-Shell sin compartir carpetas de plugins, ejecuta:
-> ```bash
-> gentle-shell home import-pi
-> ```
+> `home import-pi` copia `auth.json` (con permisos `0600`) y `mcp.json`, más tu proveedor, modelo y nivel de razonamiento por defecto si el home nuevo no los tiene. Nunca sobrescribe archivos ni toca tu home de Pi. Contrapartida: `--link` comparte un único almacén de credenciales, mientras que `import-pi` crea una segunda copia, así que un proveedor que rota refresh tokens puede cerrar la sesión en una de las dos. En ese caso, vuelve a ejecutar `/login`.
 
----
-
-### Método B: Integrado dentro de una instalación existente de Pi
-Si ya eres usuario de Pi y deseas que Gentle-Shell cargue como un paquete dentro de tu instalación habitual:
+### Ruta B: dentro de una instalación de Pi existente
 
 ```bash
-# 1. Instalar el paquete dentro de Pi fijando la última versión
-pi install npm:gentle-pi@4.3.0
+# 1. Instalar el paquete en tu agente de Pi
+pi install npm:gentle-pi
 
-# 2. Sincronizar extensiones, themes y skills
+# Para una versión reproducible
+pi install npm:gentle-pi@4.7.0
+
+# 2. Reiniciar Pi y sincronizar assets (extensiones, themes, skills)
 gentle-ai sync
 
-# 3. Ejecutar Pi normalmente en tu proyecto
+# 3. Trabajar normalmente
 pi
 ```
 
+### Actualización y desinstalación
+
+```bash
+gentle-shell upgrade                     # actualiza Gentle Shell
+gentle-shell upgrade --channel main      # builds de main (requiere Go y pnpm)
+gentle-shell upgrade --rollback          # vuelve al par anterior verificado
+gentle-shell update --extensions         # actualiza Pi y sus extensiones
+gentle-shell self-uninstall --dry-run    # ver qué se eliminaría
+gentle-shell self-uninstall              # eliminar Gentle Shell
+```
+
+`self-uninstall` conserva la configuración compartida de Gentle AI en `~/.pi/gentle-ai` salvo que pases `--include-shared`, y no toca tu home de Pi.
+
 ---
 
-## Verificación de Salud del Entorno
+## Verificación de salud del entorno
 
-Una vez dentro de la terminal interactiva de Gentle-Shell, ejecuta estos comandos para validar dependencias, MCPs y permisos:
+Dentro de la terminal interactiva:
 
 ```text
-/gentle:status   # Muestra versión activa (v4.3.0), perfil de enrutamiento y estado de contexto
-/gentle:doctor   # Audita herramientas locales, sockets de audio, Git y MCP servers
+/gentle:status   # versión activa, perfil de modelo, modo de permisos y estado de contexto
+/gentle:doctor   # audita herramientas locales, Git, MCPs y permisos
+/gentle:usage    # medidores de uso y suscripciones
 ```
 
 ---
 
-## Atajos de Teclado y Comandos Principales
+## Atajos de teclado
 
-Gentle-Shell dota a la terminal de capacidades visuales para que no tengas que salir a otra pestaña para revisar git o controlar subagentes:
+Gentle-Shell dota a la terminal de capacidades visuales para no salir a otra pestaña:
 
-| Atajo / Comando | Función | Utilidad |
-| :--- | :--- | :--- |
-| **`alt + g`** | **Gentle Changes** | Visor de cambios Git en pantalla partida con recuento de líneas y diff interactivo contra `HEAD`. |
-| **`alt + a`** | **Gentle Agents** | Monitor de subagentes en paralelo con métricas de tokens consumidos, coste y tiempo transcurrido. |
-| **`alt + k`** | **Command Palette** | Menú desplegable instantáneo con todos los comandos y extensiones disponibles. |
-| `/gentle:jobs` | **Background Jobs** | Inspección, logs y detención de procesos que corren en segundo plano (`job_stop`). |
-| `/gentle:customize`| **Personalización TUI** | Selector interactivo de temas, disposición de la barra (derecha o inferior) y modo Vim. |
-| `/gentle:stats` | **Métricas Locales** | Mapa de calor de actividad, historial de uso, tokens y consumo por modelo. |
+| Atajo | Función |
+| :--- | :--- |
+| **`alt + g`** | **Gentle Changes:** visor de diffs a pantalla completa, dos paneles, con recuento de líneas por archivo e inclusión de worktrees. |
+| **`alt + a`** | **Gentle Agents:** monitor de subagentes con hilos retenidos, métricas de tokens, coste y tiempo. |
+| **`alt + k`** | **Command Palette:** menú agrupado y curado (Configuration, Session, Diagnostics, Skills) con búsqueda. |
+| **`alt + s`** | Detiene los subagentes activos o en cola que pertenecen a la sesión. |
+| **`alt + l`** | Cicla los presets visuales Light → Neutral → Power user. |
+| **`alt + e`** | Selecciona el borrador completo del editor. |
+| **`ctrl + shift + t`** | Colapsa la tarjeta de tareas a una sola línea. |
+| **`ctrl + shift + a`** | Colapsa o expande la tarjeta de agentes. |
+| **`ctrl + shift + j`** | Colapsa la tarjeta de jobs en segundo plano. |
 
----
-
-## Modos de Permisos (Control vs Autonomía)
-
-Gentle-Shell ofrece tres modos de supervisión según la naturaleza de la tarea:
-
-1. **Normal (`/gentle:mode normal`):**  
-   Modo clásico. Solicita confirmación explícita para cada escritura de archivo, ejecución de comando o mutación de estado.
-2. **Auto (`/gentle:mode auto`):**  
-   Evalúa mediante inferencia independiente si una acción de lectura/ejecución es segura en base al contexto de la conversación, reduciendo preguntas triviales sin rebajar la seguridad.
-3. **YOLO (`/gentle:yolo enable`):**  
-   Otorga permiso de ejecución continua para implementaciones ya acordadas, tests y commits en ramas de trabajo. **Las acciones destructivas (borrados masivos, force-push) siguen requiriendo confirmación obligatoria humana.**
+> [!NOTE]
+> `ctrl + k` no se usa: Pi lo reserva para el editor. Por eso la paleta es `alt + k`, y los atajos que chocan con acciones de Pi se rechazan explícitamente.
 
 ---
 
-## La Metodología ODD (Organic Driven Development)
+## Comandos principales
 
-Gentle-AI no trabaja "a ciegas". Todo desarrollo sigue un flujo estricto de 7 etapas:
+Todos se invocan como `/gentle:<nombre>` dentro de la sesión.
+
+### Sesión y trabajo
+
+| Comando | Función |
+| :--- | :--- |
+| `/gentle:changes` | Visor de cambios Git (equivale a `alt + g`). |
+| `/gentle:agents` | Panel de subagentes (equivale a `alt + a`). |
+| `/gentle:jobs` | Inspección, logs y detención de procesos en segundo plano. |
+| `/gentle:background-subagents` | Política de subagentes en segundo plano. |
+| `/gentle:scratch` | Notas temporales de trabajo. |
+| `/gentle:commands` | Paleta de comandos. |
+| `/gentle:guide` | Tour guiado de la interfaz, paso a paso. |
+| `/gentle:panel` | Disposición y visibilidad del panel lateral. |
+
+### Modelos y perfiles
+
+| Comando | Función |
+| :--- | :--- |
+| `/gentle:profiles` | Perfiles de modelo y enrutamiento por rol. Reemplaza al retirado `/gentle:models`. |
+| `/gentle:persona` | Modo de identidad del agente. |
+| `/gentle:usage` | Medidores de suscripción y consumo. |
+| `/gentle:stats` | Métricas locales: mapa de calor, historial, tokens por modelo. |
+
+### Permisos y revisión
+
+| Comando | Función |
+| :--- | :--- |
+| `/gentle:mode` | Selecciona o consulta el modo de permisos de la sesión. |
+| `/gentle:yolo` | Selector interactivo de modo YOLO / Super Yolo. |
+| `/gentle:rdd` | Estado y alcance de Receipt-Driven Development. |
+| `/gentle:review-mode` | Interruptor de revisión con alcance de clon. |
+
+### Diseño, audio y diagnóstico
+
+| Comando | Función |
+| :--- | :--- |
+| `/gentle:design` | Canvas de diseño: briefs, artboards HTML, comentarios y sistema de diseño. |
+| `/gentle:music` | Reproductor de música integrado. |
+| `/gentle:voice` | Dictado local por voz. |
+| `/gentle:status` / `/gentle:doctor` | Estado del entorno y auditoría de dependencias. |
+| `/gentle:telemetry` | Telemetría anónima: estado, activación, desactivación y previsualización del payload. |
+| `/gentle:customize` | Personalización de la TUI: temas, barra, editor, transparencia, animaciones y modo Vim. |
+
+---
+
+## Modos de permisos (control frente a autonomía)
+
+| Modo | Comportamiento |
+| :--- | :--- |
+| **Normal** | Comportamiento por defecto. Las confirmaciones de comandos guardados ofrecen opciones acotadas: **Allow once**, **Allow for this session** y **Always allow \<familia\>**, además de **Deny**. |
+| **Auto** | Un revisor independiente, con el modelo de la sesión, comprueba cada acción elegible contra la intención vigente del usuario antes de ejecutarla. |
+| **YOLO** | Permiso permanente para trabajo ya autorizado y para el delivery ordinario, sin clasificador Auto. Las acciones destructivas y los límites de consentimiento independientes se mantienen. |
+| **Super Yolo** | Sin preguntas de permiso, incluidas las confirmaciones de pérdida de datos. Solo queda la guarda de rutas sensibles (`.env`, `.ssh`, llaveros, `*.pem`/`*.key`/`*.p12`, `secrets/`, credenciales cloud) y las denegaciones catastróficas a nivel de código (`rm -rf /`, `--no-preserve-root`, `git reset --hard`, clean forzado, force push). |
+
+```text
+/gentle:mode normal | auto | yolo | super-yolo   # solo esta sesión
+/gentle:mode status                              # modo actual y default guardado
+/gentle:mode default auto                        # default para sesiones nuevas
+```
+
+> [!IMPORTANT]
+> Cambiar el default **no** cambia la sesión actual. Los hijos de paquete no heredan el modo elevado del padre: mantienen su delegación acotada y sus rutas de seguridad.
+
+---
+
+## La metodología ODD (Organic Driven Development)
+
+ODD no es opcional: cada petición entra en el flujo, sin que tengas que pedirlo.
 
 ```
-[1. Authorize]  ──► [2. Explore]  ──► [3. Resolve]  ──► [4. Classify]
-                                                              │
-                    ┌─────────────────────────────────────────┘
-                    ▼
-          ¿Tarea pequeña o grande?
-          ├── Pequeña: Ejecución inline en el hilo principal (RED ──► GREEN ──► Refactor).
-          └── Grande:  [5. Track] ──► Creación de odd/tasks/<feature>.md
+[1. Authorize] ─► [2. Explore] ─► [3. Resolve] ─► [4. Classify]
+                                                        │
+                     ┌──────────────────────────────────┘
+                     ▼
+        ¿Tarea pequeña o grande? (test de reanudación)
+        ├── Pequeña: inline en el hilo principal, RED ──► GREEN ──► Refactor
+        └── Grande:  [5. Track] ──► odd/tasks/<feature>.md + espejo en memoria
                                         │
                                         ▼
-                                [6. Implement] ──► Delegación proporcional
+                               [6. Implement] ──► commits por unidad de trabajo
                                         │
                                         ▼
-                                [7. Close]     ──► Cierre con línea de riesgo (Risk line)
+                               [7. Close]     ──► resultado verificado + Risk line
 ```
 
-### Reglas de Delegación Proporcional
-Uno de los mayores errores en el uso de agentes es lanzar subagentes para tareas diminutas o, al revés, sobrecargar al agente principal con lecturas de miles de tokens:
-* **Inline (sin subagentes):** Tareas entendidas cuyo diff cabe en la memoria de trabajo y pueden resolverse en una sola sesión.
-* **Explorer Subagent:** Se dispara solo cuando comprender el problema requiere más de 10.000 tokens de lectura o más de 5 búsquedas secuenciales.
-* **Parallel Writers:** Únicamente cuando existen 2 o más módulos completamente independientes con superficies de edición disjuntas.
-* **Independent Verifier:** Se activa exclusivamente cuando el cambio toca un punto de **alto riesgo** (migraciones de datos, contratos de API públicos, auth o seguridad).
+* **Authorize:** investigación, explicación, revisión y propuestas son de solo lectura. Nada se escribe hasta que el cambio está autorizado.
+* **Classify:** el tamaño se decide por el **test de reanudación** (¿otra persona podría terminar el trabajo solo con la petición original y `git diff`?), nunca por número de archivos o de tests.
+* **Track:** solo para tareas grandes, antes de la primera escritura: documento de feature, espejo en memoria y lista visible de tareas.
+* **Implement:** una tarea cada vez, con TDD cuando hay tests deterministas aplicables y commits por unidad de trabajo de unas 400 líneas cambiadas.
+* **Close:** se reporta el resultado verificado, los checks fallidos o pendientes, y una línea `Risk`.
+
+### Delegación proporcional
+
+El error más común al usar agentes es lanzar subagentes para tareas diminutas o sobrecargar al hilo principal con lecturas de decenas de miles de tokens:
+
+* **Inline:** tareas entendidas cuyo diff se reanuda desde la petición y el diff.
+* **Explorer:** se dispara cuando comprender el problema excede un lote acotado de lecturas (más de ~3 llamadas o ~10k tokens) o más de ~5 búsquedas secuenciales.
+* **Parallel writers:** solo con dos o más unidades independientes de comportamiento y superficies de edición disjuntas.
+* **Independent verifier:** solo cuando el cambio toca un punto de alto riesgo: datos irrecuperables, seguridad, contratos que otros consumen, concurrencia, delivery o ausencia de test que detecte la regresión.
+
+Cada cambio cierra con su línea de riesgo (`Risk: none` o `Risk: item N`), y cualquier item activa verificación independiente.
 
 ---
 
-## Enlaces Oficiales y Recursos
+## Revisión nativa (RDD)
 
-* 🌐 [Sitio Web Oficial de Gentle-AI](https://gentle-ai.gentlemanprogramming.com/)
-* 📦 [Repositorio en GitHub (Gentleman-Programming/gentle-shell)](https://github.com/Gentleman-Programming/gentle-shell)
+RDD (**Receipt-Driven Development**) es el sistema de revisión por autoridad nativa. Es opcional y viene activado por defecto.
+
+* **Interruptor propio:** `/gentle:rdd` muestra el modo efectivo y su origen, y permite elegir un cambio de repositorio o uno explícito de máquina. `/gentle:review-mode status|enable|disable` sigue teniendo alcance de clon. Cambiar RDD no otorga consentimiento de revisión ni cambia permisos.
+* **Candidato:** el commit de una unidad de trabajo o el slice de un PR, nunca la rama acumulada completa.
+* **Evaluación:** cada candidato se clasifica por riesgo. Lo pasivo y lo bajo no genera ceremonia; lo medio se difiere al slice; lo **alto** se revisa de inmediato.
+* **Cuatro lentes independientes:** `risk` (datos, credenciales, permisos, contratos), `resilience` (fallos, reintentos, concurrencia), `readability` (API, mensajes, documentación) y `reliability` (lógica que los tests deben fijar). El agente elige solo las pertinentes y explica por qué.
+* **Consentimiento por candidato:** la TUI muestra las opciones del candidato y, aparte, una acción de host para permitir las revisiones de toda la sesión de Pi. Se concede por selección humana directa y vive solo en memoria del proceso.
+* **Sin entrega:** la revisión nunca hace commit, push, PR ni release. Un resultado `approved` cierra la autoridad de revisión y el delivery sigue las reglas normales del repositorio.
+
+Solo bloquean los hallazgos graves causados por el candidato; lo preexistente queda como seguimiento.
+
+---
+
+## Novedades frente a la guía anterior
+
+Si llegaste a esta página cuando documentaba la `v4.3.0`, estos son los cambios que más afectan al uso diario:
+
+* **Gentle Design:** `/gentle:design` escribe briefs y artboards HTML autocontenidos en `design/<slug>/`, con comentarios sobre el canvas y sistema de diseño (`design/system.md`).
+* **Gentle Music y Gentle Voice:** reproductor integrado y dictado local por voz.
+* **Tour guiado:** `/gentle:guide` explica la interfaz paso a paso, sin salir de la sesión.
+* **Perfiles de modelo:** `/gentle:profiles` sustituye a `/gentle:models`, con cadenas de fallback por perfil y pines por repositorio.
+* **Super Yolo:** cuarto modo de permisos, sin confirmaciones salvo la guarda de rutas sensibles.
+* **RDD con consentimiento por candidato** y cuatro lentes en lugar del modelo anterior de revisión única.
+* **Instalación empaquetada:** instalador en navegador, `upgrade` con canales y rollback, y `self-uninstall`.
+* **Proveedor NaN** como proveedor de primera parte, junto a los ya soportados.
+* **Telemetría anónima opt-out** con previsualización exacta del payload antes de enviarlo.
+
+---
+
+## Enlaces oficiales y recursos
+
+* 🌐 [Sitio web oficial de Gentle-AI](https://gentle-ai.gentlemanprogramming.com/)
+* 📦 [Repositorio en GitHub](https://github.com/Gentleman-Programming/gentle-shell)
+* 🏷️ [Releases y notas de versión](https://github.com/Gentleman-Programming/gentle-shell/releases)
 * 📚 [Wiki de Gentle-AI](https://gentle-ai-wiki.gentlemanprogramming.com/)
-* 📦 [Paquete en npm (gentle-pi v4.3.0)](https://www.npmjs.com/package/gentle-pi)
+* 📦 [Paquete en npm (`gentle-pi`)](https://www.npmjs.com/package/gentle-pi)
